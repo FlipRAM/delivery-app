@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ButtonRegister from '../../components/ButtonRegister';
 import emailValidate from '../../helpers/emailRegexValidate';
-import postLoginApi from '../../services/API';
+import { postLoginApi } from '../../services/API';
 import { LoginContainer, LoginForm } from './styles';
 
 const PASSWORD_MIN = 6;
@@ -71,14 +72,7 @@ function Login() {
           Login
 
         </button>
-        <button
-          data-testid="common_login__button-register"
-          type="button"
-        >
-          Ainda não tenho conta
-
-        </button>
-
+        <ButtonRegister />
         {returnPost.status === RETURN_NOT_FOUND_STATUS
           ? (
             <p
