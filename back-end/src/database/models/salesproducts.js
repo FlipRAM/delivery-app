@@ -25,15 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
   });
 
-  salesProducts.belongsTo(sales, {
-    foreignKey: 'saleId', 
-    as: 'saleId'
-  });
+  // salesProducts.belongsTo(sales, {
+  //   foreignKey: 'saleId', 
+  //   as: 'saleId'
+  // });
   
-  salesProducts.belongsTo(products, {
-    foreignKey: 'productId', 
-    as: 'productId'
-  });
+  // salesProducts.belongsTo(products, {
+  //   foreignKey: 'productId', 
+  //   as: 'productId'
+  // });
 
 
   return salesProducts;
