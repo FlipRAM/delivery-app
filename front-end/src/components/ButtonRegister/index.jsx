@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ButtonRegisterContainer from './styles';
 
 function ButtonRegister() {
   const navigate = useNavigate();
@@ -9,13 +10,13 @@ function ButtonRegister() {
   };
 
   return (
-    <button
+    <ButtonRegisterContainer
       data-testid="common_login__button-register"
       type="button"
       onClick={ navigateToRegister }
     >
       Ainda não tenho conta
-    </button>
+    </ButtonRegisterContainer>
   );
 }
 

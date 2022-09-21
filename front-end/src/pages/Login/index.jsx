@@ -40,36 +40,36 @@ function Login() {
   return (
     <LoginContainer className="login-container">
       <LoginForm className="login-form">
-        <label htmlFor="email">
-          Login
-          <input
-            data-testid="common_login__input-email"
-            name="email"
-            required
-            value={ email }
-            onChange={ (event) => setEmail(event.target.value) }
-            type="email"
-            placeholder="email@trybeer.com.br"
-          />
-        </label>
-        <label htmlFor="password">
-          Senha
-          <input
-            data-testid="common_login__input-password"
-            name="password"
-            value={ password }
-            onChange={ (event) => setPassword(event.target.value) }
-            type="password"
-            placeholder="********"
-          />
-        </label>
+        <p>Login</p>
+        <input
+          id="email"
+          data-testid="common_login__input-email"
+          name="email"
+          required
+          value={ email }
+          onChange={ (event) => setEmail(event.target.value) }
+          type="email"
+          placeholder="email@trybeer.com.br"
+        />
+
+        <p>Senha</p>
+        <input
+          data-testid="common_login__input-password"
+          name="password"
+          value={ password }
+          onChange={ (event) => setPassword(event.target.value) }
+          type="password"
+          placeholder="********"
+        />
+
         <button
+          className="btn-login"
           data-testid="common_login__button-login"
           type="button"
           disabled={ formValuesIsInvalid }
           onClick={ handlePostLoginApi }
         >
-          Login
+          LOGIN
 
         </button>
         <ButtonRegister />

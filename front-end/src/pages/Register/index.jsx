@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import emailValidate from '../helpers/emailRegexValidate';
-import { postRegisterApi } from '../services/API';
+import emailValidate from '../../helpers/emailRegexValidate';
+import { postRegisterApi } from '../../services/API';
 
 const NAME_MIN = 12;
 const PASSWORD_MIN = 6;
