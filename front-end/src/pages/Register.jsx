@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import emailValidate from '../helpers/emailRegexValidate';
 import { postRegisterApi } from '../services/API';
 
@@ -16,6 +17,11 @@ function Register() {
     method: 'POST',
     status: 200 });
 
+  const navigate = useNavigate();
+
+  const navigateToCustomerProducts = () => {
+    navigate('/customer/products');
+  };
   useEffect(() => {
     if (
       emailValidate(email)
@@ -30,6 +36,7 @@ function Register() {
 
   const handlePostRegisterApi = async () => {
     const returnApi = await postRegisterApi({ name, email, password });
+    if (returnApi.status !== RETURN_CONFLICT_STATUS) navigateToCustomerProducts();
     setReturnPost(returnApi);
   };
 

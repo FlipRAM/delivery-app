@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import emailValidate from '../helpers/emailRegexValidate';
-import postLoginApi from '../services/API';
-import ButtonRegister from '../components/ButtonRegister';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ButtonRegister from '../../components/ButtonRegister';
+import emailValidate from '../../helpers/emailRegexValidate';
+import { postLoginApi } from '../../services/API';
+import { LoginContainer, LoginForm } from './styles';
 
 const PASSWORD_MIN = 6;
-const RETURN_STATUS = 404;
+const RETURN_NOT_FOUND_STATUS = 404;
+const RETURN_SUCCESS_STATUS = 200;
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,8 +16,9 @@ function Login() {
   const [returnPost, setReturnPost] = useState({
     hasToken: false,
     method: 'POST',
-    status: 200 });
-  console.log(returnPost);
+    status: 200,
+  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (emailValidate(email) && password.length >= PASSWORD_MIN) {
@@ -27,11 +31,15 @@ function Login() {
   const handlePostLoginApi = async () => {
     const returnApi = await postLoginApi({ email, password });
     setReturnPost(returnApi);
+
+    if (returnApi.status === RETURN_SUCCESS_STATUS) {
+      navigate('/customer/products');
+    }
   };
 
   return (
-    <div className="bg-green-600">
-      <form>
+    <LoginContainer className="login-container">
+      <LoginForm className="login-form">
         <label htmlFor="email">
           Login
           <input
@@ -65,17 +73,17 @@ function Login() {
 
         </button>
         <ButtonRegister />
-        <button
-          type="button"
-          style={ { display: returnPost.status !== RETURN_STATUS
-            ? 'none' : 'block' } }
-          data-testid="common_login__element-invalid-email"
-        >
-          opasassssssssssssssssss
+        {returnPost.status === RETURN_NOT_FOUND_STATUS
+          ? (
+            <p
+              data-testid="common_login__element-invalid-email"
+            >
+              Informações incorretas
+            </p>
+          ) : ''}
 
-        </button>
-      </form>
-    </div>
+      </LoginForm>
+    </LoginContainer>
   );
 }
 
