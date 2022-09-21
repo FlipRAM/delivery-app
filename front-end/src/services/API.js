@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const postLoginApi = async (data) => {
+export const postLoginApi = async (data) => {
   try {
     const result = await axios.post(('http://localhost:3001/login'), {
       ...data,
@@ -12,7 +12,7 @@ const postLoginApi = async (data) => {
   }
 };
 
-const postRegisterApi = async (data) => {
+export const postRegisterApi = async (data) => {
   try {
     const result = await axios.post(('http://localhost:3001/register'), {
       ...data,
@@ -22,5 +22,3 @@ const postRegisterApi = async (data) => {
     return { hasToken: false, method: 'POST', status: AxiosError.response.status };
   }
 };
-
-module.exports = { postLoginApi, postRegisterApi };

@@ -15,23 +15,34 @@ export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   font-size: 1.4rem;
-  gap: 4px;
-  height: 300px;
-  justify-content: space-evenly;
+  gap: 12px;
+  height: 332px;
+  justify-content: center;
   padding: 16px;
   width: 300px;
 
-  label {
+  p {
+    display: block;
+    font-weight: 500;
+    padding-left: 16px;
+  }
+
+  input {
     background: #FFFFFF;
-    border-radius: 5px;
+    border-radius: 4px;
     border: 1px solid #001813;
-    display: inline-block;
-    height: 43px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: black;
+    min-height: 36px;
     padding: 8px;
   }
 
-  button {
+  .btn-login {
     background: #036B52;
-    border-radius: 10px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.4rem;
+    margin: 8px 0;
+    padding: 8px;
   }
 `;
