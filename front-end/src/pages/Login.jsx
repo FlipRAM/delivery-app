@@ -1,9 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import emailValidate from '../helpers/emailRegexValidate';
+import postLoginApi from '../services/API';
+
+const PASSWORD_MIN = 6;
+const RETURN_STATUS = 404;
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  console.log(email, password);
+  const [formValuesIsInvalid, setFormValuesIsInvalid] = useState(true);
+  const [returnPost, setReturnPost] = useState({
+    hasToken: false,
+    method: 'POST',
+    status: 200 });
+  console.log(returnPost);
+
+  useEffect(() => {
+    if (emailValidate(email) && password.length >= PASSWORD_MIN) {
+      setFormValuesIsInvalid(false);
+    } else {
+      setFormValuesIsInvalid(true);
+    }
+  }, [email, password]);
+
+  const handlePostLoginApi = async () => {
+    const returnApi = await postLoginApi({ email, password });
+    setReturnPost(returnApi);
+  };
 
   return (
     <div className="bg-green-600">
@@ -13,8 +36,9 @@ function Login() {
           <input
             data-testid="common_login__input-email"
             name="email"
+            required
             value={ email }
-            onChange={ (e) => setEmail(e.target.value) }
+            onChange={ (event) => setEmail(event.target.value) }
             type="email"
             placeholder="email@trybeer.com.br"
           />
@@ -25,7 +49,7 @@ function Login() {
             data-testid="common_login__input-password"
             name="password"
             value={ password }
-            onChange={ (e) => setPassword(e.target.value) }
+            onChange={ (event) => setPassword(event.target.value) }
             type="password"
             placeholder="********"
           />
@@ -33,6 +57,8 @@ function Login() {
         <button
           data-testid="common_login__button-login"
           type="button"
+          disabled={ formValuesIsInvalid }
+          onClick={ handlePostLoginApi }
         >
           Login
 
@@ -44,9 +70,15 @@ function Login() {
           Ainda não tenho conta
 
         </button>
-        <p
+        <button
+          type="button"
+          style={ { display: returnPost.status !== RETURN_STATUS
+            ? 'none' : 'block' } }
           data-testid="common_login__element-invalid-email"
-        />
+        >
+          opasassssssssssssssssss
+
+        </button>
       </form>
     </div>
   );
