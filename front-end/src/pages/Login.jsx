@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import emailValidate from '../helpers/emailRegexValidate';
 import postLoginApi from '../services/API';
+import ButtonRegister from '../components/ButtonRegister';
 
 const PASSWORD_MIN = 6;
 const RETURN_STATUS = 404;
@@ -63,13 +64,7 @@ function Login() {
           Login
 
         </button>
-        <button
-          data-testid="common_login__button-register"
-          type="button"
-        >
-          Ainda não tenho conta
-
-        </button>
+        <ButtonRegister />
         <button
           type="button"
           style={ { display: returnPost.status !== RETURN_STATUS

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import emailValidate from '../helpers/emailRegexValidate';
+import { postRegisterApi } from '../services/API';
 
 const NAME_MIN = 12;
 const PASSWORD_MIN = 6;
-const RETURN_STATUS = 404;
+const RETURN_CONFLICT_STATUS = 409;
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -13,9 +15,6 @@ function Register() {
     hasToken: false,
     method: 'POST',
     status: 200 });
-
-  const emailValidate = (emailToValidate) => emailToValidate
-    .match(/^\w+([-+.’]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/);
 
   useEffect(() => {
     if (
@@ -28,19 +27,6 @@ function Register() {
       setFormValuesIsInvalid(true);
     }
   }, [name, email, password]);
-
-  const postRegisterApi = async (data) => {
-    const customAlert = alert;
-    try {
-      await axios.post(('http://localhost:3001/register'), {
-        ...data,
-      });
-      return { hasToken: false, method: 'POST', status: err.response.status };
-    } catch (err) {
-      customAlert('Erro inesperado, ou as informações estão incorretas');
-      return { hasToken: false, method: 'POST', status: err.response.status };
-    }
-  };
 
   const handlePostRegisterApi = async () => {
     const returnApi = await postRegisterApi({ name, email, password });
@@ -92,14 +78,14 @@ function Register() {
         >
           CADASTRAR
         </button>
-        <button
-          type="button"
-          style={ { display: returnPost.status !== RETURN_STATUS
-            ? 'none' : 'block' } }
-          data-testid="common_register__element-invalid-register"
-        >
-          opasassssssssssssssssss
-        </button>
+        {returnPost.status === RETURN_CONFLICT_STATUS
+          ? (
+            <p
+              data-testid="common_register__element-invalid_register"
+            >
+              Email e nome já cadastrados
+            </p>
+          ) : ''}
       </form>
     </div>
   );
