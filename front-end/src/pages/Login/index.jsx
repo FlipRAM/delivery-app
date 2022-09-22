@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonRegister from '../../components/ButtonRegister';
+import { useAppContext } from '../../Context/APIProvider';
 import emailValidate from '../../helpers/emailRegexValidate';
 import { postLoginApi } from '../../services/API';
 import { LoginContainer, LoginForm } from './styles';
@@ -8,16 +10,14 @@ import { LoginContainer, LoginForm } from './styles';
 const PASSWORD_MIN = 6;
 const RETURN_NOT_FOUND_STATUS = 404;
 const RETURN_SUCCESS_STATUS = 200;
+const INITIAL_STATUS = 0;
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formValuesIsInvalid, setFormValuesIsInvalid] = useState(true);
-  const [returnPost, setReturnPost] = useState({
-    hasToken: false,
-    method: 'POST',
-    status: 200,
-  });
+  const { setUserData } = useContext(useAppContext);
+  const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,13 +28,24 @@ function Login() {
     }
   }, [email, password]);
 
-  const handlePostLoginApi = async () => {
-    const returnApi = await postLoginApi({ email, password });
-    setReturnPost(returnApi);
-
-    if (returnApi.status === RETURN_SUCCESS_STATUS) {
+  useEffect(() => {
+    if (statusReturned === RETURN_SUCCESS_STATUS) {
       navigate('/customer/products');
     }
+  }, [navigate, statusReturned]);
+
+  const handlePostLoginApi = async (event) => {
+    event.preventDefault();
+    const apiResults = await postLoginApi({ email, password });
+
+    if (apiResults instanceof AxiosError) {
+      setStatusReturned(apiResults.response.status);
+      return { hasToken: false, method: 'POST', status: apiResults.response.status };
+    }
+
+    setUserData(apiResults);
+    setStatusReturned(apiResults.status);
+    return { hasToken: false, method: 'POST', status: apiResults.status };
   };
 
   return (
@@ -65,21 +76,21 @@ function Login() {
         <button
           className="btn-login"
           data-testid="common_login__button-login"
-          type="button"
+          type="submit"
           disabled={ formValuesIsInvalid }
           onClick={ handlePostLoginApi }
         >
-          LOGIN
+          Login
 
         </button>
         <ButtonRegister />
-        {returnPost.status === RETURN_NOT_FOUND_STATUS
+        {statusReturned === RETURN_NOT_FOUND_STATUS
           ? (
-            <p
+            <span
               data-testid="common_login__element-invalid-email"
             >
               Informações incorretas
-            </p>
+            </span>
           ) : ''}
 
       </LoginForm>
