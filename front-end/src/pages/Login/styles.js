@@ -21,10 +21,12 @@ export const LoginForm = styled.form`
   padding: 16px;
   width: 300px;
 
-  p {
+  span {
     display: block;
     font-weight: 500;
     padding-left: 16px;
+    color: red;
+    text-align: center;
   }
 
   input {

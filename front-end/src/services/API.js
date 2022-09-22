@@ -1,4 +1,4 @@
-const axios = require('axios');
+import * as axios from 'axios';
 
 export const postLoginApi = async (data) => {
   try {
@@ -6,9 +6,9 @@ export const postLoginApi = async (data) => {
       ...data,
     });
 
-    return { hasToken: false, method: 'POST', status: result.status };
+    return result;
   } catch (AxiosError) {
-    return { hasToken: false, method: 'POST', status: AxiosError.response.status };
+    return AxiosError;
   }
 };
 
