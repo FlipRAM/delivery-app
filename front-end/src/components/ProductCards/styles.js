@@ -8,17 +8,20 @@ export const ProductCardsContainer = styled.div`
   flex-wrap: wrap;
   width: 80%;
   height: fit-content;
-  border: 1px solid;
   margin-top: 30px;
 
   .checkout {
     background: #036B52;
-    bottom: 200px;
+    bottom: 80px;
+    border: none;
+    border-radius: 8px;
     color: white;
-    height: 43px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    padding: 16px;
     position: fixed;
-    right: 200px;
-    width: 240px;
+    right: 80px;
+    width: 340px;
     z-index: 99;
   }
 `;
@@ -28,13 +31,22 @@ export const Cards = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 180px;
-  height: 260px;
+  width: 235px;
+  height: 320px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: 30px;
+  overflow: hidden;
+  border-radius: 4px;
+
+  :hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.35);
+    filter: brightness(1.05);
+  }
   
   .thumb {
     overflow: hidden;
-    height: 75%;
+    height: 70%;
     max-width: 100%;
     object-fit: fit-content;
   }
@@ -46,31 +58,40 @@ export const Cards = styled.div`
     font-size: 1.4rem;
     font-weight: 700;
     color: black;
+    background: #fdfdfd;
+    border-radius: 8px;
+    padding: 4px;
   }
   
   .infoOptions {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 12px 4px 20px 4px;
     flex: 1;
-    height: 40px;
     width: 100%;
-    border: 2px solid blue;
+    background: #e8f2ef;
+
     
     .product-name {
-      font-size: 0.5em;
+      font-size: 1rem;
     }
     
     .quantity {
       display: flex;
       justify-content: space-between;
       height: 32px;
+      border: 1px solid #036B52;
+      border-radius: 8px;
+      overflow: hidden;
     
       
       input {
         width: 40px;
         text-align: center;
+        border: none;
+        appearance: none;
       }
 
       button {
@@ -79,6 +100,7 @@ export const Cards = styled.div`
         color: white;
         height: 32px;
         width: 32px;
+        border: none;
       }
       
       color: black;

@@ -1,4 +1,5 @@
 const { verify } = require('jsonwebtoken');
+require('dotenv').config();
 
 class ValidateJWT {
   static validateToken(token) {

@@ -16,6 +16,6 @@ export const CustomerProductsCards = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
   padding: 32px;
+  
 `;

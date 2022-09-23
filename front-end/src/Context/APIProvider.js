@@ -10,7 +10,8 @@ export function UseAppContextProvider({ children }) {
 
   useEffect(() => {
     if (userData.data) {
-      saveUserOnLocalStorage(userData.data);
+      saveUserOnLocalStorage('user', userData.data);
+      saveUserOnLocalStorage('token', userData.data.token);
       setUserLog(userData.data);
     }
   }, [userData.data]);

@@ -10,8 +10,8 @@ export default function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (getUserFromLocalStorage() && !userLog) {
-      setUserInfo(getUserFromLocalStorage());
+    if (getUserFromLocalStorage('user') && !userLog) {
+      setUserInfo(getUserFromLocalStorage('user'));
     }
   }, [userLog]);
 

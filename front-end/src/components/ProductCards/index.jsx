@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useAppContext } from '../../Context/APIProvider';
-import { Cards, ProductCardsContainer } from './styles';
 import { listProductsApi } from '../../services/API';
+import { Cards, ProductCardsContainer } from './styles';
 
 export default function ProductCards() {
-  const [quantity, setQuantity] = useState(0);
   const { productsList, setProductsList } = useContext(useAppContext);
 
   useEffect(() => {
     (async () => {
       if (!productsList) {
-        const data = await listProductsApi();
-        setProductsList(data.data);
+        const { data } = await listProductsApi();
+        setProductsList(data);
       }
     })();
   }, [productsList, setProductsList]);
@@ -24,8 +23,7 @@ export default function ProductCards() {
             data-testid={ `customer_products__element-card-price-${product.id}` }
             className="price"
           >
-            {product.price}
-
+            {`R$ ${product.price.replace('.', ',')}`}
           </p>
 
           <img
@@ -41,13 +39,11 @@ export default function ProductCards() {
               className="product-name"
             >
               {product.name}
-
             </p>
 
             <div className="quantity">
               <button
                 data-testid={ `customer_products__button-card-rm-item-${product.id}` }
-                onClick={ () => setQuantity(quantity - 1) }
                 className="minus"
                 type="button"
               >
@@ -58,7 +54,6 @@ export default function ProductCards() {
               />
               <button
                 data-testid={ `customer_products__button-card-add-item-${product.id}` }
-                onClick={ () => setQuantity(quantity + 1) }
                 className="plus"
                 type="button"
               >
@@ -73,7 +68,7 @@ export default function ProductCards() {
         type="button"
         className="checkout"
       >
-        Ver Carrinho
+        Ver Carrinho: R$ 845,45
       </button>
     </ProductCardsContainer>
   );

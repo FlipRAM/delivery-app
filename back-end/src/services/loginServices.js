@@ -19,7 +19,7 @@ const userData = result.dataValues;
   
 console.log(userData);
   
-const token = JWT.createToken(userData);
+const token = JWT.createToken({ email, password });
 const resultToReturn = { ...result.dataValues, token };
 
   return resultToReturn;
