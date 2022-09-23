@@ -50,6 +50,8 @@ export default function ProductCards() {
                 -
               </button>
               <input
+                defaultValue={ 0 }
+                type="number"
                 data-testid={ `customer_products__input-card-quantity-${product.id}` }
               />
               <button

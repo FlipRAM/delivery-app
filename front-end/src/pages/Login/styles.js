@@ -57,9 +57,14 @@ export const LoginForm = styled.form`
 `;
 
 export const LoginButton = styled.button`
+  background: #036B52;
   border-radius: 8px;
   color: white;
   font-size: 1.4rem;
   margin: 8px 0;
   padding: 8px;
+
+  :hover {
+    filter: brightness(1.2);
+  }
 `;
