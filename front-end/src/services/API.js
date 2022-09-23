@@ -22,3 +22,12 @@ export const postRegisterApi = async (data) => {
     return { hasToken: false, method: 'POST', status: AxiosError.response.status };
   }
 };
+
+export const listProductsApi = async () => {
+  try {
+    const result = await axios('http://localhost:3001/customer/products');
+    return result;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};

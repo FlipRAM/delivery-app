@@ -4,7 +4,8 @@ const HeaderContainer = styled.div`
   background: #036B52;
   color: white;
   display: flex;
-  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
   justify-content: space-between;
   width: 100%;
 

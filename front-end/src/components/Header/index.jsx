@@ -1,23 +1,37 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useAppContext } from '../../Context/APIProvider';
+import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import HeaderContainer from './styles';
 
 export default function Header() {
-  const { userData } = useContext(useAppContext);
+  const { userLog } = useContext(useAppContext);
+  const [userInfo, setUserInfo] = useState(userLog);
   const navigate = useNavigate();
-  console.log(userData);
+
+  useEffect(() => {
+    if (getUserFromLocalStorage() && !userLog) {
+      setUserInfo(getUserFromLocalStorage());
+    }
+  }, [userLog]);
+
+  const handleLogoutUser = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   return (
     <HeaderContainer>
       <div className="nav-left">
         <button
+          data-testid="customer_products__element-navbar-link-products"
           className="nav-left-items produtos"
           type="button"
         >
           PRODUTOS
         </button>
         <button
+          data-testid="customer_products__element-navbar-link-orders"
           className="nav-left-items pedidos"
           type="button"
         >
@@ -27,14 +41,16 @@ export default function Header() {
 
       <div className="nav-right">
         <p
+          data-testid="customer_products__element-navbar-user-full-name"
           className="nav-right-items user"
         >
-          {userData.data.name}
+          { userInfo ? userInfo.name : 'nao atualizou' }
         </p>
         <button
+          data-testid="customer_products__element-navbar-link-logout"
           className="nav-right-items sair"
           type="button"
-          onClick={ navigate('/login') }
+          onClick={ handleLogoutUser }
         >
           SAIR
         </button>

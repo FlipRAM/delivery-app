@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const loginRouter = require('../routes/loginRoutes');
 const registerRouter = require('../routes/registerRoutes');
+const productRouter = require('../routes/productRoutes');
 const error = require('../middleware/errorMiddleware');
 
 const app = express();
@@ -10,8 +11,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
+app.use(loginRouter);
+app.use(productRouter);
+app.use(registerRouter);
+app.use(express.static('public'));
 
 app.use(error);
 
