@@ -1,11 +1,12 @@
 import { AxiosError } from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import ButtonRegister from '../../components/ButtonRegister';
 import { useAppContext } from '../../Context/APIProvider';
 import emailValidate from '../../helpers/emailRegexValidate';
 import { postLoginApi } from '../../services/API';
-import { LoginContainer, LoginForm } from './styles';
+import { LoginButton, LoginContainer, LoginForm } from './styles';
 
 const PASSWORD_MIN = 6;
 const RETURN_NOT_FOUND_STATUS = 404;
@@ -39,14 +40,14 @@ function Login() {
     const apiResults = await postLoginApi({ email, password });
 
     if (apiResults instanceof AxiosError) {
-      setStatusReturned(apiResults.response.status);
-      return { hasToken: false, method: 'POST', status: apiResults.response.status };
+      return setStatusReturned(apiResults.response.status);
     }
 
     setUserData(apiResults);
-    setStatusReturned(apiResults.status);
-    return { hasToken: false, method: 'POST', status: apiResults.status };
+    return setStatusReturned(apiResults.status);
   };
+  // return { hasToken: false, method: 'POST', status: apiResults.response.status };
+  // return { hasToken: false, method: 'POST', status: apiResults.status };
 
   return (
     <LoginContainer className="login-container">
@@ -73,7 +74,8 @@ function Login() {
           placeholder="********"
         />
 
-        <button
+        <LoginButton
+          isDisable={ formValuesIsInvalid }
           className="btn-login"
           data-testid="common_login__button-login"
           type="submit"
@@ -82,7 +84,7 @@ function Login() {
         >
           Login
 
-        </button>
+        </LoginButton>
         <ButtonRegister />
         {statusReturned === RETURN_NOT_FOUND_STATUS
           ? (

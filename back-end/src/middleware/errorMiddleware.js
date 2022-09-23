@@ -6,8 +6,8 @@ const error = (errorLike, _req, res, _next) => {
       message: errorLike.message,
     });
   }
-  return res.status(500).json({
-    message: errorLike.message,
+  return res.status(501).json({
+    message: { ...errorLike.message, or: 'maybe a problem with database' },
   });
 };
 
