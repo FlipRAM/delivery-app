@@ -17,6 +17,7 @@ export default function Header() {
 
   const handleLogoutUser = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('cart');
     navigate('/login');
   };
 
