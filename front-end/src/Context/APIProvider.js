@@ -4,8 +4,8 @@ import { saveUserOnLocalStorage } from './LocalStorage';
 
 export const useAppContext = createContext({});
 export function UseAppContextProvider({ children }) {
-  const [userData, setUserData] = useState({});
   const [productsList, setProductsList] = useState(undefined);
+  const [userData, setUserData] = useState({});
   const [userLog, setUserLog] = useState();
 
   useEffect(() => {

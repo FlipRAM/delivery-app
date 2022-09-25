@@ -17,6 +17,8 @@ export default function Header() {
 
   const handleLogoutUser = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('token');
     navigate('/login');
   };
 

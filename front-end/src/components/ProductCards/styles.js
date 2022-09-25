@@ -4,7 +4,7 @@ export const ProductCardsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   flex-wrap: wrap;
   width: 80%;
   height: fit-content;
@@ -12,7 +12,7 @@ export const ProductCardsContainer = styled.div`
 
   .checkout {
     background: #036B52;
-    bottom: 80px;
+    bottom: 160px;
     border: none;
     border-radius: 8px;
     color: white;
@@ -20,9 +20,22 @@ export const ProductCardsContainer = styled.div`
     font-weight: 700;
     padding: 16px;
     position: fixed;
-    right: 80px;
+    right: 160px;
     width: 340px;
     z-index: 99;
+
+    transition: all 0.3s;
+    :hover {
+      filter: brightness(1.2);
+      box-shadow: 0 0 32px #55555590;
+      color: yellow;
+    }
+    :active{
+      transform: translate(1px, 1px);
+    }
+    :disabled {
+      background: #036B5270;
+    }
   }
 `;
 
@@ -31,8 +44,8 @@ export const Cards = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 235px;
-  height: 320px;
+  width: 175px;
+  height: 240px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 30px;
   overflow: hidden;
@@ -55,7 +68,7 @@ export const Cards = styled.div`
     position: absolute;
     top: 8px;
     left: 8px;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 700;
     color: black;
     background: #fdfdfd;
@@ -66,22 +79,24 @@ export const Cards = styled.div`
   .infoOptions {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 12px 4px 20px 4px;
+    padding: 4px;
     flex: 1;
     width: 100%;
     background: #e8f2ef;
 
-    
     .product-name {
-      font-size: 1rem;
+      padding: 4px 0;
+      font-size: 80%;
+      white-space: nowrap;
     }
     
     .quantity {
       display: flex;
       justify-content: space-between;
-      height: 32px;
+      align-items: center;
+      height: 38%;
       border: 1px solid #036B52;
       border-radius: 8px;
       overflow: hidden;
@@ -92,6 +107,17 @@ export const Cards = styled.div`
         text-align: center;
         border: none;
         appearance: none;
+        /* Chrome, Safari, Edge, Opera */
+        ::-webkit-outer-spin-button,
+        ::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        &[type=number] {
+          -moz-appearance: textfield;
+        }
       }
 
       button {

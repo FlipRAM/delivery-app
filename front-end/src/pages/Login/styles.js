@@ -63,8 +63,14 @@ export const LoginButton = styled.button`
   font-size: 1.4rem;
   margin: 8px 0;
   padding: 8px;
+  transition: all 0.3s;
 
   :hover {
     filter: brightness(1.2);
+  }
+
+  :disabled {
+    background: #036B5270;
+    color: #B1C2BE;
   }
 `;
