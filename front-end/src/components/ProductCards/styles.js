@@ -23,6 +23,19 @@ export const ProductCardsContainer = styled.div`
     right: 80px;
     width: 340px;
     z-index: 99;
+
+    transition: all 0.3s;
+    :hover {
+      filter: brightness(1.2);
+      box-shadow: 0 0 32px #55555590;
+      color: yellow;
+    }
+    :active{
+      transform: translate(1px, 1px);
+    }
+    :disabled {
+      background: #036B5270;
+    }
   }
 `;
 
@@ -92,6 +105,17 @@ export const Cards = styled.div`
         text-align: center;
         border: none;
         appearance: none;
+        /* Chrome, Safari, Edge, Opera */
+        ::-webkit-outer-spin-button,
+        ::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        &[type=number] {
+          -moz-appearance: textfield;
+        }
       }
 
       button {
