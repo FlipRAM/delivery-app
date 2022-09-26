@@ -46,8 +46,6 @@ function Login() {
     setUserData(apiResults);
     return setStatusReturned(apiResults.status);
   };
-  // return { hasToken: false, method: 'POST', status: apiResults.response.status };
-  // return { hasToken: false, method: 'POST', status: apiResults.status };
 
   return (
     <LoginContainer className="login-container">
