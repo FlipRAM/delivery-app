@@ -4,6 +4,7 @@ const cors = require('cors');
 const loginRouter = require('../routes/loginRoutes');
 const registerRouter = require('../routes/registerRoutes');
 const productRouter = require('../routes/productRoutes');
+const salesRouter = require('../routes/salesRoutes');
 const error = require('../middleware/errorMiddleware');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(loginRouter);
 app.use(productRouter);
 app.use(registerRouter);
+app.use(salesRouter);
 app.use(express.static('public'));
 
 app.use(error);

@@ -28,25 +28,25 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
   });
 
+  sales.belongsTo('users', {
+    foreignKey: 'userId', 
+    as: 'userId'
+  });
+  
   // sales.belongsTo('users', {
+    //   foreignKey: 'sellerId', 
+    //   as: 'sellerId'
+    // });
+    
+    return sales;
+  };
+  
+  // checar depois a necessidade
+  // users.hasMany(sales, {
   //   foreignKey: 'userId', 
   //   as: 'userId'
   // });
   
-  // sales.belongsTo('users', {
-  //   foreignKey: 'sellerId', 
-  //   as: 'sellerId'
-  // });
-  
-  return sales;
-};
-
-// checar depois a necessidade
-// users.hasMany(sales, {
-//   foreignKey: 'userId', 
-//   as: 'userId'
-// });
-
 // users.hasMany(sales, {
 //   foreignKey: 'seller_id', 
 //   as: 'seller_id'
