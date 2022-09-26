@@ -24,7 +24,7 @@ export function UseAppContextProvider({ children }) {
     setProductsList,
     totalPrice,
     setTotalPrice,
-  }), [productsList, totalPrice, userLog]);
+  }), [productsList, totalPrice, userLog, setTotalPrice]);
 
   return (
     <useAppContext.Provider value={ props }>
