@@ -1,6 +1,6 @@
 const md5 = require('md5');
 const ErrorProvider = require('../error');
-const { users } = require('../database/models/index');
+const { users } = require('../database/models');
 const { createToken } = require('../utils/jwtService');
 
 const loginService = async ({ email, password }) => { 
