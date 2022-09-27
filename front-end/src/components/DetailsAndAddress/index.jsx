@@ -10,14 +10,14 @@ export default function DetailsAndAddress() {
   const [sellers, setSellers] = useState([]);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [idSelected, setIdSelected] = useState(1);
+  const [idSelected, setIdSelected] = useState(2);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const updatedSellers = async () => {
       const sellersList = await listSellersApi();
-      return setSellers(sellersList);
+      return setSellers([{ id: 0, name: 'Selecione' }, ...sellersList]);
     };
     updatedSellers();
   }, []);
@@ -33,6 +33,7 @@ export default function DetailsAndAddress() {
       0,
     );
     const userId = await getUserId(user.email);
+    console.log(totalPrice);
     const saleObj = {
       userId,
       sellerId: idSelected,
@@ -43,8 +44,8 @@ export default function DetailsAndAddress() {
       status: 'Pendente',
     };
     const id = await confirmSaleApi(token, saleObj);
-    const newLocation = `/customer/orders/${id}`;
-    navigate(newLocation.toString());
+
+    navigate(`/customer/orders/${id}`);
   };
 
   return (
@@ -59,7 +60,12 @@ export default function DetailsAndAddress() {
           onChange={ (event) => setIdSelected(event.target.value) }
         >
           { sellers && sellers.map((seller) => (
-            <option key={ seller.id } value={ seller.id } label={ seller.name }>
+            <option
+              selected={ seller.id === !!0 }
+              key={ seller.id }
+              value={ seller.id }
+              label={ seller.name }
+            >
               { `${seller.name}` }
             </option>
           ))}
