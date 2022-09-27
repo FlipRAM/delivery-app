@@ -10,7 +10,7 @@ export default function DetailsAndAddress() {
   const [sellers, setSellers] = useState([]);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [idSelected, setIdSelected] = useState(1);
+  const [idSelected, setIdSelected] = useState(undefined);
 
   const navigate = useNavigate();
 
@@ -21,6 +21,12 @@ export default function DetailsAndAddress() {
     };
     updatedSellers();
   }, []);
+
+  useEffect(() => {
+    if (sellers.length) {
+      setIdSelected(sellers[0].id);
+    }
+  }, [sellers]);
 
   const confirmSale = async () => {
     const user = getUserFromLocalStorage('user');
@@ -42,7 +48,7 @@ export default function DetailsAndAddress() {
       saleDate: new Date(),
       status: 'Pendente',
     };
-    const id = await confirmSaleApi(token, saleObj);
+    const id = await confirmSaleApi(saleObj, checkoutList, token);
     const newLocation = `/customer/orders/${id}`;
     navigate(newLocation.toString());
   };

@@ -52,10 +52,11 @@ export const getUserId = async (email) => {
   }
 };
 
-export const confirmSaleApi = async (token, saleObj) => {
+export const confirmSaleApi = async (saleObj, products, token) => {
   try {
-    const { data: { id } } = await axios.post(('http://localhost:3001/sales'), {
-      ...saleObj,
+    const { data: { id } } = await axios.post(('http://localhost:3001/customer/sales'), {
+      saleObj,
+      products,
     }, {
       headers: {
         authorization: token,

@@ -7,7 +7,6 @@ export function UseAppContextProvider({ children }) {
   const [productsList, setProductsList] = useState(undefined);
   const [userData, setUserData] = useState({});
   const [userLog, setUserLog] = useState();
-  const [totalPrice, setTotalPrice] = useState('0,00');
 
   useEffect(() => {
     if (userData.data) {
@@ -22,9 +21,7 @@ export function UseAppContextProvider({ children }) {
     setUserData,
     productsList,
     setProductsList,
-    totalPrice,
-    setTotalPrice,
-  }), [productsList, totalPrice, userLog, setTotalPrice]);
+  }), [productsList, userLog]);
 
   return (
     <useAppContext.Provider value={ props }>
