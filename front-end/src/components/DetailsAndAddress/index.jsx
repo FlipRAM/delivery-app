@@ -30,7 +30,6 @@ export default function DetailsAndAddress() {
 
   const confirmSale = async () => {
     const user = getUserFromLocalStorage('user');
-    const token = getUserFromLocalStorage('token');
     const checkoutList = getUserProductListToCheckout('checkoutCart');
     const totalPrice = checkoutList.reduce(
       (previousValue, currentElement) => previousValue + (
@@ -48,7 +47,7 @@ export default function DetailsAndAddress() {
       saleDate: new Date(),
       status: 'Pendente',
     };
-    const id = await confirmSaleApi(saleObj, checkoutList, token);
+    const id = await confirmSaleApi(saleObj, checkoutList, user.token);
     const newLocation = `/customer/orders/${id}`;
     navigate(newLocation.toString());
   };

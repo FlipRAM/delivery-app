@@ -14,7 +14,7 @@ const postSale = async (saleObj, products, token) => {
       .map((product) => ({ saleId: id, productId: product.id, quantity: product.quantity }),
         { transaction: flow }));
         return id;
-  })
+  });
   return idToReturn;
 };
 

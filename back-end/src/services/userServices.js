@@ -6,8 +6,8 @@ const getSellers = async () => {
 };
 
 const getUserIdService = async (email) => {
-  const { id } = await users.findOne({ where: { email }})
+  const { id } = await users.findOne({ where: { email } });
   return id;
-}
+};
 
 module.exports = { getSellers, getUserIdService };
