@@ -40,3 +40,29 @@ export const listSellersApi = async () => {
     return AxiosError;
   }
 };
+
+export const getUserId = async (email) => {
+  try {
+    const { data: { id } } = await axios.post(('http://localhost:3001/users'), {
+      email,
+    });
+    return id;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const confirmSaleApi = async (token, saleObj) => {
+  try {
+    const { data: { id } } = await axios.post(('http://localhost:3001/sales'), {
+      ...saleObj,
+    }, {
+      headers: {
+        authorization: token,
+      },
+    });
+    return id;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};

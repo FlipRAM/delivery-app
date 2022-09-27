@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { listSellersApi } from '../../services/API';
+import { useNavigate } from 'react-router';
+import {
+  getUserFromLocalStorage,
+  getUserProductListToCheckout,
+} from '../../Context/LocalStorage';
+import { confirmSaleApi, listSellersApi, getUserId } from '../../services/API';
 
 export default function DetailsAndAddress() {
   const [sellers, setSellers] = useState([]);
+  const [address, setAddress] = useState('');
+  const [number, setNumber] = useState('');
+  const [idSelected, setIdSelected] = useState(1);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updatedSellers = async () => {
@@ -12,12 +22,42 @@ export default function DetailsAndAddress() {
     updatedSellers();
   }, []);
 
+  const confirmSale = async () => {
+    const user = getUserFromLocalStorage('user');
+    const token = getUserFromLocalStorage('token');
+    const checkoutList = getUserProductListToCheckout('checkoutCart');
+    const totalPrice = checkoutList.reduce(
+      (previousValue, currentElement) => previousValue + (
+        currentElement.price * currentElement.quantity
+      ),
+      0,
+    );
+    const userId = await getUserId(user.email);
+    const saleObj = {
+      userId,
+      sellerId: idSelected,
+      totalPrice,
+      deliveryAddress: address,
+      deliveryNumber: number,
+      saleDate: new Date(),
+      status: 'Pendente',
+    };
+    const id = await confirmSaleApi(token, saleObj);
+    const newLocation = `/customer/orders/${id}`;
+    navigate(newLocation.toString());
+  };
+
   return (
     <div>
       <h2> Detalhes e Endereço de Entrega </h2>
       <label htmlFor="seller">
         P. Vendedora Responsável:
-        <select id="seller" data-testid="customer_checkout__select-seller">
+        <select
+          id="seller"
+          data-testid="customer_checkout__select-seller"
+          value={ idSelected }
+          onChange={ (event) => setIdSelected(event.target.value) }
+        >
           { sellers && sellers.map((seller) => (
             <option key={ seller.id } value={ seller.id } label={ seller.name }>
               { `${seller.name}` }
@@ -31,6 +71,8 @@ export default function DetailsAndAddress() {
           type="text"
           id="address"
           data-testid="customer_checkout__input-address"
+          value={ address }
+          onChange={ (event) => setAddress(event.target.value) }
         />
       </label>
       <label htmlFor="number">
@@ -38,12 +80,15 @@ export default function DetailsAndAddress() {
         <input
           type="text"
           id="number"
-          data-testid="customer_checkout__input-addressNumber"
+          data-testid="customer_checkout__input-address-number"
+          value={ number }
+          onChange={ (event) => setNumber(event.target.value) }
         />
       </label>
       <button
         data-testid="customer_checkout__button-submit-order"
         type="button"
+        onClick={ () => confirmSale() }
       >
         FINALIZAR PEDIDO
       </button>
