@@ -7,7 +7,7 @@ const sequelize = new Sequelize(config.development);
 
 const postSale = async (saleObj, products, token) => {
   verifyToken(token);
-  const idToReturn = sequelize.transaction(async (flow) => {
+  const idToReturn = await sequelize.transaction(async (flow) => {
     const { id } = await sales.create(saleObj,
       { transaction: flow });
     salesProducts.bulkCreate(products
