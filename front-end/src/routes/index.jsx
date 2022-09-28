@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Costumer from '../pages/Customer';
 import Checkout from '../pages/Checkout';
+import AdmManage from '../pages/AdmManage';
 
 function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ function AppRoutes() {
       <Route path="/customer/products" element={ <Costumer /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
       <Route path="/customer/orders/:id" element={ <p>order id</p> } />
+      <Route path="/admin/manage" element={ <AdmManage /> } />
     </Routes>
   );
 }
