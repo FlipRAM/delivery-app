@@ -31,3 +31,32 @@ export const listProductsApi = async () => {
     return AxiosError;
   }
 };
+
+export const listSellersApi = async () => {
+  try {
+    const { data } = await axios.get('http://localhost:3001/users/sellers');
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const confirmSaleApi = async (saleObj, products, token) => {
+  console.log(saleObj, products, token);
+  try {
+    const { data: { id } } = await axios.post(('http://localhost:3001/customer/sales'), {
+      saleObj,
+      products,
+    }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(id);
+
+    return id;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
