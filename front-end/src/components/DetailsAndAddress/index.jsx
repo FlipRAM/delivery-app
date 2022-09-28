@@ -4,7 +4,7 @@ import {
   getUserFromLocalStorage,
   getUserProductListToCheckout,
 } from '../../Context/LocalStorage';
-import { confirmSaleApi, listSellersApi, getUserId } from '../../services/API';
+import { confirmSaleApi, listSellersApi } from '../../services/API';
 
 export default function DetailsAndAddress() {
   const [sellers, setSellers] = useState([]);
@@ -17,7 +17,7 @@ export default function DetailsAndAddress() {
   useEffect(() => {
     const updatedSellers = async () => {
       const sellersList = await listSellersApi();
-      return setSellers([{ id: 0, name: 'Selecione' }, ...sellersList]);
+      return setSellers([{ id: '0', name: 'Selecione' }, ...sellersList]);
     };
     updatedSellers();
   }, []);
@@ -37,10 +37,8 @@ export default function DetailsAndAddress() {
       ),
       0,
     );
-    const userId = await getUserId(user.email);
-    console.log(totalPrice);
+
     const saleObj = {
-      userId,
       sellerId: idSelected,
       totalPrice,
       deliveryAddress: address,
@@ -49,8 +47,8 @@ export default function DetailsAndAddress() {
       status: 'Pendente',
     };
     const id = await confirmSaleApi(saleObj, checkoutList, user.token);
-    const newLocation = `/customer/orders/${id}`;
-    navigate(newLocation.toString());
+
+    return navigate(`/customer/orders/${id}`);
   };
 
   return (

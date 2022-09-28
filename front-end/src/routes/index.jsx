@@ -14,7 +14,7 @@ function AppRoutes() {
       <Route path="/customer" element={ <Costumer /> } />
       <Route path="/customer/products" element={ <Costumer /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
-      <Route path="/customer/orders/:id" />
+      <Route path="/customer/orders/:id" element={ <p>order id</p> } />
     </Routes>
   );
 }

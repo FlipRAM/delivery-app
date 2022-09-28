@@ -1,7 +1,7 @@
 const md5 = require('md5');
 const ErrorProvider = require('../error');
 const { users } = require('../database/models');
-const { createToken } = require('../utils/jwtService');
+const createToken = require('../utils/JWT.create');
 
 const loginService = async ({ email, password }) => { 
   const result = await users.findOne({ where: { email } });
@@ -12,7 +12,6 @@ const loginService = async ({ email, password }) => {
   if (passConverted !== result.dataValues.password) throw new ErrorProvider(404, 'User not found');
 
   delete result.dataValues.password;
-  delete result.dataValues.id;
 
   const userDataToToken = result.dataValues;
 
