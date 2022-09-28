@@ -1,10 +1,9 @@
 const service = require('../services/saleServices');
-const { verifyToken } = require('../utils/jwtService');
 
 const postSale = async (request, response) => {
-  const { body } = request;  
-
-  const id = await service.postSale(body);
+  const token = request.headers.authorization;
+  const { saleObj, products } = request.body;
+  const id = await service.postSale(saleObj, products, token);
   response.status(201).json({ id });
 };
 

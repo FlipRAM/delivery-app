@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useAppContext } from '../../Context/APIProvider';
+import React, { useEffect, useState } from 'react';
 import {
   saveUserProductListToCheckout,
   getUserProductListToCheckout,
@@ -7,12 +6,8 @@ import {
 import CheckoutContainer from './styles';
 
 export default function CheckoutProducts() {
-  const {
-    totalPrice,
-    setTotalPrice,
-  } = useContext(useAppContext);
-
   const [checkoutList, setCheckoutList] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
 
   const removeItem = (product) => {
     const indexMatch = checkoutList.indexOf(product);
@@ -42,7 +37,7 @@ export default function CheckoutProducts() {
         saveUserProductListToCheckout('checkoutCart', checkoutList);
       }
     })();
-  }, [checkoutList, setCheckoutList, setTotalPrice]);
+  }, [checkoutList, setCheckoutList]);
 
   return (
     <CheckoutContainer>

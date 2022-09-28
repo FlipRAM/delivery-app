@@ -4,6 +4,6 @@ const auth = require('../middleware/authMiddleware');
 
 const saleRouter = express.Router();
 
-saleRouter.post('/customer/sales', auth, controller.postSale);
+saleRouter.post('/customer/sales', controller.postSale);
 
 module.exports = saleRouter;

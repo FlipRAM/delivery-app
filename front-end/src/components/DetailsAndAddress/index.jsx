@@ -10,7 +10,7 @@ export default function DetailsAndAddress() {
   const [sellers, setSellers] = useState([]);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [idSelected, setIdSelected] = useState(2);
+  const [idSelected, setIdSelected] = useState(undefined);
 
   const navigate = useNavigate();
 
@@ -22,9 +22,14 @@ export default function DetailsAndAddress() {
     updatedSellers();
   }, []);
 
+  useEffect(() => {
+    if (sellers.length) {
+      setIdSelected(sellers[0].id);
+    }
+  }, [sellers]);
+
   const confirmSale = async () => {
     const user = getUserFromLocalStorage('user');
-    const token = getUserFromLocalStorage('token');
     const checkoutList = getUserProductListToCheckout('checkoutCart');
     const totalPrice = checkoutList.reduce(
       (previousValue, currentElement) => previousValue + (
@@ -43,9 +48,9 @@ export default function DetailsAndAddress() {
       saleDate: new Date(),
       status: 'Pendente',
     };
-    const id = await confirmSaleApi(token, saleObj);
-
-    navigate(`/customer/orders/${id}`);
+    const id = await confirmSaleApi(saleObj, checkoutList, user.token);
+    const newLocation = `/customer/orders/${id}`;
+    navigate(newLocation.toString());
   };
 
   return (

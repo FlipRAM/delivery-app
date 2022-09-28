@@ -1,24 +1,15 @@
 'use strict';
-
-/**
- * 
- * @param {import('sequelize').Sequelize} sequelize 
- * @param {import('sequelize').DataTypes} DataTypes 
- * @returns 
- */
-
-const ProductModel = (sequelize, DataTypes) => { 
-  const Product = sequelize.define('products', {  
-  name: DataTypes.STRING,
+module.exports = (sequelize, DataTypes) => {
+  const Products = sequelize.define('products', {
+    name: DataTypes.STRING,
     price: DataTypes.DECIMAL,
     urlImage: DataTypes.STRING,
-  }, {
+  },
+  {
     tableName: 'products',
     timestamps: false,
     underscored: true,
   });
 
-  return Product;
+  return Products;
 };
-
-module.exports = ProductModel;
