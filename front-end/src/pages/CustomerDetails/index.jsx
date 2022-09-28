@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { listProductsApi, listSellerOrdersApi, listUserApi } from '../../services/API';
 
-export default function StatusSales() {
+export default function CostumerOrderDetails() {
   const [productsList, setProductsList] = useState([]);
   const [sellerOrders, setSellerOrders] = useState([]);
   const [userList, setUserList] = useState([]);

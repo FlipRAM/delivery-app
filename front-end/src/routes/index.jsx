@@ -3,9 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Costumer from '../pages/Customer';
-import Checkout from '../components/Checkout';
-import SellerOrders from '../pages/SellerOrders';
-import CustomerDetails from '../pages/CustomerDetails';
+import Checkout from '../pages/Checkout';
 
 function AppRoutes() {
   return (
@@ -16,8 +14,7 @@ function AppRoutes() {
       <Route path="/customer" element={ <Costumer /> } />
       <Route path="/customer/products" element={ <Costumer /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
-      <Route path="/sales" element={ <SellerOrders /> } />
-      <Route path="/details" element={ <CustomerDetails /> } />
+      <Route path="/customer/orders/:id" element={ <p>order id</p> } />
     </Routes>
   );
 }

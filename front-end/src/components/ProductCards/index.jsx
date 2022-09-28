@@ -10,8 +10,9 @@ import { Cards, ProductCardsContainer } from './styles';
 
 export default function ProductCards() {
   const { productsList, setProductsList } = useContext(useAppContext);
-  const { totalPrice, setTotalPrice } = useContext(useAppContext);
+  const [totalPrice, setTotalPrice] = useState('0,00');
   const [productListToCheckout, setProductListToCheckout] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {

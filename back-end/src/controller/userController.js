@@ -1,8 +1,14 @@
-const { getAllUsers } = require('../services/userService');
+const { getSellers, getUserIdService } = require('../services/userServices');
 
-const getUsers = async (_request, response) => {
-  const user = await getAllUsers();
-  response.status(200).json(user);
+const userController = async (_request, response) => {
+  const sellers = await getSellers();
+  response.status(200).json(sellers);
 };
 
-module.exports = { getUsers };
+const getUserId = async (request, response) => {
+  const email = request.query;
+  const id = await getUserIdService(email);
+  response.status(200).json({ id });
+};
+
+module.exports = { userController, getUserId };
