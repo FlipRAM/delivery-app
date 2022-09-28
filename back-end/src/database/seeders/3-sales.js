@@ -10,7 +10,6 @@ module.exports = {
         delivery_address: 'street',
         delivery_number: '12345',
         sale_date: '2001/08/01',
-        status: 'PENDENTE',
       },
       {
         user_id: 3,
@@ -19,7 +18,6 @@ module.exports = {
         delivery_address: 'rua',
         delivery_number: 'abc456',
         sale_date: '2022/12/22',
-        status: 'ENTREGUE',
       }
     ]);
   },
