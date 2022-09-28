@@ -43,6 +43,7 @@ export const listSellersApi = async () => {
 };
 
 export const confirmSaleApi = async (saleObj, products, token) => {
+  console.log(saleObj, products, token);
   try {
     const { data: { id } } = await axios.post(('http://localhost:3001/customer/sales'), {
       saleObj,

@@ -43,11 +43,9 @@ export default function DetailsAndAddress() {
       totalPrice,
       deliveryAddress: address,
       deliveryNumber: number,
-      saleDate: new Date(),
-      status: 'Pendente',
     };
     const id = await confirmSaleApi(saleObj, checkoutList, user.token);
-
+    console.log(id);
     return navigate(`/customer/orders/${id}`);
   };
 

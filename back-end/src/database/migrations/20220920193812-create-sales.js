@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -17,6 +18,7 @@ module.exports = {
         field: 'user_id',
       },
       sellerId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -25,22 +27,27 @@ module.exports = {
         field: 'seller_id',
       },
       totalPrice: {
-        type: Sequelize.DECIMAL(4,2),
+        allowNull: false,
+        type: Sequelize.DECIMAL(9,2),
         field: 'total_price',
       },
       deliveryAddress: {
+        allowNull: false,
         type: Sequelize.STRING,
         field: 'delivery_address',
       },
       deliveryNumber: {
+        allowNull: false,
         type: Sequelize.STRING,
         field: 'delivery_number',
       },
       saleDate: {
+        allowNull: false,
         type: Sequelize.DATE,
         field: 'sale_date',
       },
       status: {
+        allowNull: false,
         type: Sequelize.STRING,
         defaultValue: 'Pendente',
       },

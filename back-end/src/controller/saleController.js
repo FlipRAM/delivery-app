@@ -8,4 +8,11 @@ const postSale = async (request, response) => {
   response.status(201).json({ id });
 };
 
-module.exports = { postSale };
+const getSaleById = async (request, response) => {
+  const { id } = request.params;
+  
+  const results = await service.getSaleById(id);
+  response.status(200).json(results);
+};
+
+module.exports = { postSale, getSaleById };
