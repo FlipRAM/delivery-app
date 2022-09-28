@@ -4,12 +4,12 @@ const cors = require('cors');
 const loginRouter = require('../routes/loginRoutes');
 const registerRouter = require('../routes/registerRoutes');
 const productRouter = require('../routes/productRoutes');
-const salesRouter = require('../routes/salesRoutes');
-const usersRouter = require('../routes/userRoutes');
+// const salesRouter = require('../routes/salesRoutes');
+// const usersRouter = require('../routes/userRoutes');
 const salesProductsRouter = require('../routes/salesProductsRoutes');
-const error = require('../middleware/errorMiddleware');
 const userRouter = require('../routes/userRoutes');
 const saleRouter = require('../routes/saleRoutes');
+const error = require('../middleware/errorMiddleware');
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.use(cors());
 app.use(loginRouter);
 app.use(productRouter);
 app.use(registerRouter);
+app.use(salesProductsRouter);
 app.use(userRouter);
 app.use(saleRouter);
 app.use(express.static('public'));

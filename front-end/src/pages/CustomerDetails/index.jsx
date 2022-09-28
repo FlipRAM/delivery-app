@@ -1,53 +1,81 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
-import { listProductsApi, listSellerOrdersApi, listUserApi } from '../../services/API';
+import { listProductsApi, listSellersApi, listSalesApi,
+  listSalesProductsApi } from '../../services/API';
 
 export default function CostumerOrderDetails() {
-  const [productsList, setProductsList] = useState([]);
-  const [sellerOrders, setSellerOrders] = useState([]);
-  const [userList, setUserList] = useState([]);
+  const [listProducts, setListProducts] = useState(undefined);
+  const [listSellers, setListSellers] = useState(undefined);
+  const [listOrders, setListOrders] = useState(undefined);
+  const [listSalesProducts, setListSalesProducts] = useState(undefined);
 
   useEffect(() => {
     (async () => {
-      if (!productsList.length) {
+      if (!listProducts) {
         const { data } = await listProductsApi();
-        setProductsList(data);
+        // console.log('PRODUTOS', data);
+        setListProducts(data);
       }
-      if (!sellerOrders.length) {
-        const { data } = await listSellerOrdersApi();
-        setSellerOrders(data);
+      if (!listSellers) {
+        const data = await listSellersApi();
+        // console.log('VENDEDORES', data);
+        setListSellers(data);
       }
-      if (!userList.length) {
-        const { data } = await listUserApi();
-        setUserList(data);
+      if (!listOrders) {
+        const data = await listSalesApi();
+        // console.log('PEDIDOS', data);
+        setListOrders(data);
+      }
+      if (!listSalesProducts) {
+        const data = await listSalesProductsApi();
+        // console.log('PEDIDOS', data);
+        setListSalesProducts(data);
       }
     })();
-  }, [productsList.length, sellerOrders.length, userList.length]);
+  }, [listOrders, listProducts, listSellers, listSalesProducts]);
 
   return (
     <div>
       <Header />
+      <p style={ { border: '50px black solid' } }>Detalhe do Pedido</p>
+      <ol style={ { border: '150px gray solid' } }>
+        {
+          listProducts && listProducts.map((e, i) => (
+            <div
+              className="productsList"
+              key={ i }
+              style={ { border: '2px blue solid' } }
+            >
+              <p
+                data-testid={ `customer_order_details__element-order-table-name-${i}` }
+              >
+                <li>{e.name}</li>
+              </p>
+              <p
+                data-testid={
+                  `customer_order_details__element-order-table-unit-price-${i}`
+                }
+              >
+                {e.price}
+              </p>
+            </div>
+          ))
+        }
+      </ol>
       {
-        productsList && productsList.map((e, i) => (
-          <div className="productsList" key={ i } style={ { border: '2px blue solid' } }>
+        listSellers && listSellers.map((e, i) => (
+          <div className="userList" key={ i } style={ { border: '2px gold solid' } }>
             <p
               data-testid={ `customer_order_details__element-order-table-name-${i}` }
             >
               {e.name}
             </p>
-            <p
-              data-testid={
-                `customer_order_details__element-order-table-unit-price-${i}`
-              }
-            >
-              {e.price}
-            </p>
           </div>
         ))
       }
       {
-        sellerOrders && sellerOrders.map((e, i) => (
-          <div className="salesList" key={ i } style={ { border: '2px red solid' } }>
+        listOrders && listOrders.map((e, i) => (
+          <div className="listOrders" key={ i } style={ { border: '2px red solid' } }>
             <p
               data-testid={ `seller_orders__element-order-id-${e.id}` }
             >
@@ -72,16 +100,21 @@ export default function CostumerOrderDetails() {
         ))
       }
       {
-        userList && userList.map((e, i) => (
-          <div className="userList" key={ i } style={ { border: '2px gold solid' } }>
+        listSalesProducts && listSalesProducts.map((e, i) => (
+          <div
+            className="listSalesProducts"
+            key={ i }
+            style={ { border: '2px brown solid' } }
+          >
             <p
-              data-testid={ `customer_order_details__element-order-table-name-${i}` }
+              data-testid={ `customer_order_details__element-order-table-quantity-${i}` }
             >
-              {e.name}
+              {e.quantity}
             </p>
           </div>
         ))
       }
+
     </div>
   );
 }
