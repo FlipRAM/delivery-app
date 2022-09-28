@@ -4,6 +4,8 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Costumer from '../pages/Customer';
 import Checkout from '../components/Checkout';
+import SellerOrders from '../pages/SellerOrders';
+import CustomerDetails from '../pages/CustomerDetails';
 
 function AppRoutes() {
   return (
@@ -14,6 +16,8 @@ function AppRoutes() {
       <Route path="/customer" element={ <Costumer /> } />
       <Route path="/customer/products" element={ <Costumer /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
+      <Route path="/sales" element={ <SellerOrders /> } />
+      <Route path="/details" element={ <CustomerDetails /> } />
     </Routes>
   );
 }

@@ -5,6 +5,8 @@ const loginRouter = require('../routes/loginRoutes');
 const registerRouter = require('../routes/registerRoutes');
 const productRouter = require('../routes/productRoutes');
 const salesRouter = require('../routes/salesRoutes');
+const usersRouter = require('../routes/userRoutes');
+const salesProductsRouter = require('../routes/salesProductsRoutes');
 const error = require('../middleware/errorMiddleware');
 
 const app = express();
@@ -16,6 +18,8 @@ app.use(loginRouter);
 app.use(productRouter);
 app.use(registerRouter);
 app.use(salesRouter);
+app.use(usersRouter);
+app.use(salesProductsRouter);
 app.use(express.static('public'));
 
 app.use(error);
