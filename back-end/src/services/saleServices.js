@@ -9,14 +9,16 @@ const postSale = async (saleObj, products, token) =>
   sequelize.transaction(async (flow) => {
     const userInfo = verifyToken(token);
 
-    const { id } = await sales.create({ userId: userInfo.id, ...saleObj },
+    const { dataValues } = await sales.create({ userId: userInfo.id, ...saleObj },
       { transaction: flow });
-
+    
     salesProducts.bulkCreate(products
-      .map((product) => ({ saleId: id, productId: product.id, quantity: product.quantity }),
+      .map((product) => ({
+        saleId: dataValues.id, productId: product.id, quantity: product.quantity,
+      }),
         { transaction: flow }));
-
-    return id;
+    
+    return dataValues;
   });
 
 const getSaleById = async (id) => {
@@ -24,4 +26,9 @@ const getSaleById = async (id) => {
   return results;
 };
 
-module.exports = { postSale, getSaleById };
+const getSaleList = async () => {
+  const results = sales.findAll();
+  return results;
+};
+
+module.exports = { postSale, getSaleById, getSaleList };

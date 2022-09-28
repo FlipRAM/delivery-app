@@ -6,7 +6,7 @@ const userController = async (_request, response) => {
 };
 
 const getUserId = async (request, response) => {
-  const { email } = request.body;
+  const email = request.query;
   const id = await getUserIdService(email);
   response.status(200).json({ id });
 };
