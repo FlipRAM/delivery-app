@@ -2,6 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FormContainer, FormContentContainer } from './styles';
 
+const USER_TYPE = ['administrator', 'customer', 'seller'];
+
 export default function FormAdmManager() {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onChange',
@@ -80,6 +82,8 @@ export default function FormAdmManager() {
             data-testid="admin_manage__select-role"
           >
             <option value="">Selecione o tipo (role)</option>
+            {USER_TYPE
+              .map((each, i) => <option key={ each + i } value={ each }>{each}</option>)}
           </select>
         </label>
 

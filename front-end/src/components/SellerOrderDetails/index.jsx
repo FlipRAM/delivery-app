@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { getSaleById } from '../../services/API';
+import {
+  getSaleById,
+  listSalesWithFullInfoApi,
+  updateStatusOrderApi,
+} from '../../services/API';
 
 export default function CheckoutProducts() {
   const [sale, setSale] = useState({});
@@ -18,7 +22,7 @@ export default function CheckoutProducts() {
     getSale(id);
 
     const getProducts = async (idToSearch) => {
-      const productsOfSale = getProductsBySaleId(idToSearch);
+      const productsOfSale = listSalesWithFullInfoApi(idToSearch);
       return setProductsList(productsOfSale);
     };
     getProducts(id);
@@ -35,7 +39,7 @@ export default function CheckoutProducts() {
   }, [sale]);
 
   const changeStatus = async (stringStatus) => {
-    const saleUpdated = await changeSaleStatus(id, stringStatus);
+    const saleUpdated = await updateStatusOrderApi(id, stringStatus);
     setSale(saleUpdated);
   };
 
