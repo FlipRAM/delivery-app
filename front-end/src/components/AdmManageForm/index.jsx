@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormContainer, FormContentContainer } from './styles';
 
 export default function FormAdmManager() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   return (
     <FormContentContainer>
@@ -29,13 +29,14 @@ export default function FormAdmManager() {
             type="text"
             placeholder="Nome e sobrenome"
           />
+          {errors.mail && <p role="alert">{errors.mail?.message}</p>}
         </label>
 
         <label htmlFor="email">
           Email
           <input
             { ...register('mail', { required: 'Email Address is required' }) }
-            aria-invalid={ errors.mail ? 'true' : 'false' }
+            // aria-invalid={ errors.mail ? 'true' : 'false' }
             placeholder="seu-email@site.com"
             data-testid="admin_manage__input-email"
             id="email"
