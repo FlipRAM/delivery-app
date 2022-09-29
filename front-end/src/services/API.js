@@ -61,20 +61,9 @@ export const confirmSaleApi = async (saleObj, products, token) => {
   }
 };
 
-// ------
-export const listSalesApi = async () => {
+export const listSalesWithFullInfoApi = async (id) => {
   try {
-    const { data } = await axios('http://localhost:3001/customer/sales');
-
-    return data;
-  } catch (AxiosError) {
-    return AxiosError;
-  }
-};
-
-export const listSalesProductsApi = async () => {
-  try {
-    const { data } = await axios('http://localhost:3001/salesProducts');
+    const { data } = await axios(`http://localhost:3001/customer/sales/${id}`);
 
     return data;
   } catch (AxiosError) {

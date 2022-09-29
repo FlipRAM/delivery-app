@@ -1,68 +1,70 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/Header';
-import { listProductsApi, listSellersApi, listSalesApi,
-  listSalesProductsApi } from '../../services/API';
+import { listSalesWithFullInfoApi } from '../../services/API';
+import CustomerDetailsContainer from './styles';
 
 export default function CostumerOrderDetails() {
-  const [listProducts, setListProducts] = useState(undefined);
-  const [listSellers, setListSellers] = useState(undefined);
-  const [listOrders, setListOrders] = useState(undefined);
-  const [listSalesProducts, setListSalesProducts] = useState(undefined);
+  const [sale, setSale] = useState({});
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
-      if (!listProducts) {
-        const { data } = await listProductsApi();
-        // console.log('PRODUTOS', data);
-        setListProducts(data);
-      }
-      if (!listSellers) {
-        const data = await listSellersApi();
-        // console.log('VENDEDORES', data);
-        setListSellers(data);
-      }
-      if (!listOrders) {
-        const data = await listSalesApi();
-        // console.log('PEDIDOS', data);
-        setListOrders(data);
-      }
-      if (!listSalesProducts) {
-        const data = await listSalesProductsApi();
-        // console.log('PEDIDOS', data);
-        setListSalesProducts(data);
-      }
+      setSale(await listSalesWithFullInfoApi(id));
     })();
-  }, [listOrders, listProducts, listSellers, listSalesProducts]);
+  }, [id]);
 
   return (
-    <div>
+    <CustomerDetailsContainer>
       <Header />
-      <p style={ { border: '50px black solid' } }>Detalhe do Pedido</p>
-      <ol style={ { border: '150px gray solid' } }>
+      <div className="titulos">
+        <p>Detalhe do Pedido</p>
+        <p>Item</p>
+        <p>Descrição</p>
+        <p>Quantidade</p>
+        <p>Valor Unitário</p>
+        <p>Sub-total</p>
+      </div>
+      <div>
         {
-          listProducts && listProducts.map((e, i) => (
+          sale.product && sale.product.map((e, i) => (
             <div
               className="productsList"
               key={ i }
-              style={ { border: '2px blue solid' } }
             >
-              <p
+              <span>{i + 1}</span>
+              <span
                 data-testid={ `customer_order_details__element-order-table-name-${i}` }
               >
-                <li>{e.name}</li>
-              </p>
-              <p
+                {e.name}
+              </span>
+              <span
                 data-testid={
                   `customer_order_details__element-order-table-unit-price-${i}`
                 }
               >
-                {e.price}
-              </p>
+                {e.salesProducts.quantity}
+              </span>
+              <span
+                data-testid={
+                  `customer_order_details__element-order-table-unit-price-${i}`
+                }
+              >
+                {`R$ ${(e.price).replace('.', ',')}`}
+              </span>
+              <span
+                data-testid={
+                  `customer_order_details__element-order-table-sub-total-${i}`
+                }
+              >
+                {`R$ ${(Number(e.price) * e.salesProducts.quantity)
+                  .toString().replace('.', ',')}`}
+              </span>
             </div>
           ))
         }
-      </ol>
-      {
+      </div>
+      {/* {
         listSellers && listSellers.map((e, i) => (
           <div className="userList" key={ i } style={ { border: '2px gold solid' } }>
             <p
@@ -72,8 +74,8 @@ export default function CostumerOrderDetails() {
             </p>
           </div>
         ))
-      }
-      {
+      } */}
+      {/* {
         listOrders && listOrders.map((e, i) => (
           <div className="listOrders" key={ i } style={ { border: '2px red solid' } }>
             <p
@@ -113,8 +115,8 @@ export default function CostumerOrderDetails() {
             </p>
           </div>
         ))
-      }
+      } */}
 
-    </div>
+    </CustomerDetailsContainer>
   );
 }
