@@ -62,6 +62,10 @@ export const FormContainer = styled.form`
       
     } 
 
+    :disabled {
+      color: yellow;
+    }
+
   }
 
   .error-message {

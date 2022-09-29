@@ -1,18 +1,19 @@
 const Sequelize = require('sequelize');
 const config = require('../database/config/config');
 const { sales, salesProducts, products, users } = require('../database/models');
+const ErrorProvider = require('../error');
 const verifyToken = require('../utils/JWT.verify');
 
 const sequelize = new Sequelize(config.development);
 
-const postSale = async (saleObj, productsList, token) => 
+const postSale = async (saleObj, productList, token) => 
   sequelize.transaction(async (flow) => {
     const userInfo = verifyToken(token);
 
     const { dataValues } = await sales.create({ userId: userInfo.id, ...saleObj },
       { transaction: flow });
     
-    salesProducts.bulkCreate(productsList
+    salesProducts.bulkCreate(productList
       .map((product) => ({
         saleId: dataValues.id, productId: product.id, quantity: product.quantity,
       }),
@@ -22,7 +23,7 @@ const postSale = async (saleObj, productsList, token) =>
   });
 
 const getSaleByIdWithFullInfo = async (id) => {
-  const results = sales.findOne({ where: { id },
+  const results = await sales.findOne({ where: { id },
   include: [
     {
       model: products,
@@ -38,8 +39,15 @@ const getSaleByIdWithFullInfo = async (id) => {
 };
 
 const getSaleList = async () => {
-  const results = sales.findAll();
+  const results = await sales.findAll();
   return results;
 };
 
-module.exports = { postSale, getSaleByIdWithFullInfo, getSaleList };
+const updateStatus = async (id, status) => {
+  const results = await sales.update({ status }, { where: { id } });
+  if (!results) throw new ErrorProvider(404, 'Update fail');
+  const sale = await getSaleByIdWithFullInfo(id);
+  return sale;
+};
+
+module.exports = { postSale, getSaleList, updateStatus, getSaleByIdWithFullInfo };
