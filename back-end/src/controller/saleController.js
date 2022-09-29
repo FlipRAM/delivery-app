@@ -26,5 +26,4 @@ const updateSale = async (request, response) => {
   response.status(200).json(results);
 };
 
-
 module.exports = { postSale, getSaleByIdWithFullInfo, getSaleList, updateSale };

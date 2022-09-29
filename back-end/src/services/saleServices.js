@@ -6,14 +6,14 @@ const verifyToken = require('../utils/JWT.verify');
 
 const sequelize = new Sequelize(config.development);
 
-const postSale = async (saleObj, products, token) => 
+const postSale = async (saleObj, productList, token) => 
   sequelize.transaction(async (flow) => {
     const userInfo = verifyToken(token);
 
     const { dataValues } = await sales.create({ userId: userInfo.id, ...saleObj },
       { transaction: flow });
     
-    salesProducts.bulkCreate(products
+    salesProducts.bulkCreate(productList
       .map((product) => ({
         saleId: dataValues.id, productId: product.id, quantity: product.quantity,
       }),
@@ -28,12 +28,12 @@ const getSaleByIdWithFullInfo = async (id) => {
     {
       model: products,
       as: 'product',
-      through: {attributes: ['quantity']}
+      through: { attributes: ['quantity'] },
     },
     {
       model: users,
-      as: 'seller'
-    }
+      as: 'seller',
+    },
   ] });
   return results;
 };
@@ -44,7 +44,7 @@ const getSaleList = async () => {
 };
 
 const updateSale = async (id) => {
-  const results = await sales.update({status:'Entregue'}, { where: {id} });
+  const results = await sales.update({ status: 'Entregue' }, { where: { id } });
   if (!results) throw new ErrorProvider(404, 'Update fail');
   const sale = await getSaleByIdWithFullInfo(id);
   return sale;
