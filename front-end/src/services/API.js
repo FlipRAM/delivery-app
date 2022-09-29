@@ -70,3 +70,12 @@ export const listSalesWithFullInfoApi = async (id) => {
     return AxiosError;
   }
 };
+
+export const updateStatusOrderApi = async (id) => {
+  try {
+    const { data } = await axios.put(`http://localhost:3001/customer/sales/${id}`);
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
