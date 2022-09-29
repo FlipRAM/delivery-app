@@ -48,6 +48,6 @@ const updateStatus = async (id, status) => {
   if (!results) throw new ErrorProvider(404, 'Update fail');
   const sale = await getSaleByIdWithFullInfo(id);
   return sale;
-}
+};
 
 module.exports = { postSale, getSaleList, updateStatus, getSaleByIdWithFullInfo };
