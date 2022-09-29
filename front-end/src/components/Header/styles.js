@@ -10,6 +10,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   position: fixed;
   z-index: 999;
+  top: 0;
 
   .nav-left {
     display: flex;

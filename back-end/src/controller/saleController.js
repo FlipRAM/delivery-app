@@ -8,10 +8,10 @@ const postSale = async (request, response) => {
   response.status(201).json({ id: dataValues.id });
 };
 
-const getSaleById = async (request, response) => {
+const getSaleByIdWithFullInfo = async (request, response) => {
   const { id } = request.params;
   
-  const results = await service.getSaleById(id);
+  const results = await service.getSaleByIdWithFullInfo(id);
   response.status(200).json(results);
 };
 
@@ -20,4 +20,10 @@ const getSaleList = async (_request, response) => {
   response.status(200).json(results);
 };
 
-module.exports = { postSale, getSaleById, getSaleList };
+const updateSale = async (request, response) => {
+  const { id } = request.params;
+  const results = await service.updateSale(id);
+  response.status(200).json(results);
+};
+
+module.exports = { postSale, getSaleByIdWithFullInfo, getSaleList, updateSale };
