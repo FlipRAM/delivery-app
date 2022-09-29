@@ -29,12 +29,6 @@ function Login() {
     }
   }, [email, password]);
 
-  useEffect(() => {
-    if (statusReturned === RETURN_SUCCESS_STATUS) {
-      navigate('/customer/products');
-    }
-  }, [navigate, statusReturned]);
-
   const handlePostLoginApi = async (event) => {
     event.preventDefault();
     const apiResults = await postLoginApi({ email, password });
@@ -44,7 +38,16 @@ function Login() {
     }
 
     setUserData(apiResults);
-    return setStatusReturned(apiResults.status);
+    console.log(apiResults);
+
+    if (apiResults.status === RETURN_SUCCESS_STATUS
+      && apiResults.data.role === 'customer') {
+      navigate('/customer/products');
+    }
+    if (apiResults.status === RETURN_SUCCESS_STATUS
+      && apiResults.data.role === 'administrator') {
+      navigate('/admin/manage');
+    }
   };
 
   return (

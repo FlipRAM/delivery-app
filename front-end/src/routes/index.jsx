@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Costumer from '../pages/Customer';
 import Checkout from '../pages/Checkout';
+import AdmManage from '../pages/AdmManage';
 import CustomerDetails from '../pages/CustomerDetails';
 
 function AppRoutes() {
@@ -16,6 +17,7 @@ function AppRoutes() {
       <Route path="/customer/products" element={ <Costumer /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
       <Route path="/customer/orders/:id" element={ <CustomerDetails /> } />
+      <Route path="/admin/manage" element={ <AdmManage /> } />
     </Routes>
   );
 }
