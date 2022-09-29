@@ -62,7 +62,7 @@ export const confirmSaleApi = async (saleObj, products, token) => {
 
 export const getSaleById = async (id) => {
   try {
-    const { data } = await axios.get((`http://localhost:3001/sales/${id}`));
+    const { data } = await axios.get((`http://localhost:3001/seller/sales/${id}`));
 
     return data;
   } catch (AxiosError) {
@@ -73,6 +73,18 @@ export const getSaleById = async (id) => {
 export const getProductsBySaleId = async (id) => {
   try {
     const { data } = await axios.get((`http://localhost:3001/salesProducts/${id}`));
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const changeSaleStatus = async (id, status) => {
+  try {
+    const { data } = await axios.put((`http://localhost:3001/seller/sales/${id}`), {
+      status,
+    });
 
     return data;
   } catch (AxiosError) {

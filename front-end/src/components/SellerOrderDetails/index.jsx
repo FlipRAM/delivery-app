@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { getSaleById, getProductsBySaleId } from '../../services/API';
+import { getSaleById, getProductsBySaleId, changeSaleStatus } from '../../services/API';
 
 export default function CheckoutProducts() {
   const [sale, setSale] = useState({});
@@ -34,6 +34,11 @@ export default function CheckoutProducts() {
     setTotalPrice(price);
   }, [sale]);
 
+  const changeStatus = async (stringStatus) => {
+    const saleUpdated = await changeSaleStatus(id, stringStatus);
+    setSale(saleUpdated);
+  };
+
   return (
     <div>
       <div>
@@ -57,12 +62,16 @@ export default function CheckoutProducts() {
             <button
               data-testid="seller_order_details__button-preparing-check"
               type="button"
+              disabled={ sale.status === 'Pendente' }
+              onClick={ () => changeStatus('Preparando') }
             >
               PREPARAR PEDIDO
             </button>
             <button
               data-testid="seller_order_details__button-dispatch-check"
               type="button"
+              disabled={ sale.status === 'Preparando' }
+              onClick={ () => changeStatus('Em Trânsito') }
             >
               SAIU PARA ENTREGA
             </button>
