@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const config = require('../database/config/config');
-const { sales, salesProducts } = require('../database/models');
+const { sales, salesProducts, products, users } = require('../database/models');
 const verifyToken = require('../utils/JWT.verify');
 
 const sequelize = new Sequelize(config.development);
@@ -21,8 +21,19 @@ const postSale = async (saleObj, products, token) =>
     return dataValues;
   });
 
-const getSaleById = async (id) => {
-  const results = sales.findOne({ where: { id } });
+const getSaleByIdWithFullInfo = async (id) => {
+  const results = sales.findOne({ where: { id },
+  include: [
+    {
+      model: products,
+      as: 'product',
+      through: {attributes: ['quantity']}
+    },
+    {
+      model: users,
+      as: 'seller'
+    }
+  ] });
   return results;
 };
 
@@ -31,4 +42,4 @@ const getSaleList = async () => {
   return results;
 };
 
-module.exports = { postSale, getSaleById, getSaleList };
+module.exports = { postSale, getSaleByIdWithFullInfo, getSaleList };

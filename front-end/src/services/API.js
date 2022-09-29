@@ -34,7 +34,7 @@ export const listProductsApi = async () => {
 
 export const listSellersApi = async () => {
   try {
-    const { data } = await axios.get('http://localhost:3001/users/sellers');
+    const { data } = await axios('http://localhost:3001/users/sellers');
 
     return data;
   } catch (AxiosError) {
@@ -56,6 +56,16 @@ export const confirmSaleApi = async (saleObj, products, token) => {
     console.log(id);
 
     return id;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const listSalesWithFullInfoApi = async (id) => {
+  try {
+    const { data } = await axios(`http://localhost:3001/customer/sales/${id}`);
+
+    return data;
   } catch (AxiosError) {
     return AxiosError;
   }
