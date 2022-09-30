@@ -1,4 +1,4 @@
-const { getSellers, getUserIdService } = require('../services/userServices');
+const { getSellers, getUserIdService, checkUser } = require('../services/userServices');
 
 const userController = async (_request, response) => {
   const sellers = await getSellers();
@@ -11,4 +11,11 @@ const getUserId = async (request, response) => {
   response.status(200).json({ id });
 };
 
-module.exports = { userController, getUserId };
+const checkValidUser = async (request, response) => {
+  const token = request.headers.authorization;
+  const user = await checkUser(token);
+
+  if (user) response.status(200).json();
+};
+
+module.exports = { userController, getUserId, checkValidUser };

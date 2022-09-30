@@ -15,7 +15,7 @@ export default function CostumerOrderDetails() {
   }, [id]);
 
   const handleUpdateStatus = async () => {
-    const result = await updateStatusOrderApi(id);
+    const result = await updateStatusOrderApi(id, 'Entregue');
     setSale(result);
   };
 

@@ -43,7 +43,6 @@ export const listSellersApi = async () => {
 };
 
 export const confirmSaleApi = async (saleObj, products, token) => {
-  console.log(saleObj, products, token);
   try {
     const { data: { id } } = await axios.post(('http://localhost:3001/customer/sales'), {
       saleObj,
@@ -53,9 +52,17 @@ export const confirmSaleApi = async (saleObj, products, token) => {
         Authorization: token,
       },
     });
-    console.log(id);
 
     return id;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const getSaleById = async (id) => {
+  try {
+    const { data } = await axios.get((`http://localhost:3001/sales/${id}`));
+    return data;
   } catch (AxiosError) {
     return AxiosError;
   }
@@ -71,9 +78,42 @@ export const listSalesWithFullInfoApi = async (id) => {
   }
 };
 
-export const updateStatusOrderApi = async (id) => {
+export const updateStatusOrderApi = async (id, status) => {
   try {
-    const { data } = await axios.put(`http://localhost:3001/customer/sales/${id}`);
+    const { data } = await axios.put((`http://localhost:3001/sales/${id}`), {
+      status,
+    });
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const getAllSalesOfPerson = async (id) => {
+  try {
+    const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const confirmUser = async (token) => {
+  const correctStatus = 200;
+  const { status } = await axios.post('http://localhost:3001/users', {}, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === correctStatus) return true;
+};
+
+export const getSellerOrdersApi = async (id) => {
+  try {
+    const { data } = await axios(`http://localhost:3001/seller/${id}/orders`);
+    console.log(data);
     return data;
   } catch (AxiosError) {
     return AxiosError;

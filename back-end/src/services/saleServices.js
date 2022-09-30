@@ -43,11 +43,66 @@ const getSaleList = async () => {
   return results;
 };
 
-const updateSale = async (id) => {
-  const results = await sales.update({ status: 'Entregue' }, { where: { id } });
+const updateStatus = async (id, status) => {
+  const results = await sales.update({ status }, { where: { id } });
   if (!results) throw new ErrorProvider(404, 'Update fail');
   const sale = await getSaleByIdWithFullInfo(id);
-  return sale;
+  return sale.dataValues;
 };
 
-module.exports = { postSale, getSaleByIdWithFullInfo, getSaleList, updateSale };
+const getAllSalesCustomerWithFullInfo = async (id) => {
+  const results = await sales.findAll({ where: { userId: id } }, {
+    include: [
+      {
+        model: products,
+        as: 'product',
+        through: { attributes: ['quantity'] },
+      },
+      {
+        model: users,
+        as: 'seller',
+      },
+    ],
+  });
+    return results;
+};
+
+const getSaleWithProductsById = async (id) => {
+  const result = await sales.findOne({ where: { id },
+    include: [
+      {
+        model: products,
+        as: 'product',
+      },
+    ],
+  });
+
+  return result;
+};
+
+const getAllSalesSellerWithFullInfo = async (id) => {
+  const results = await sales.findAll({ where: { sellerId: id } }, {
+    include: [
+      {
+        model: products,
+        as: 'product',
+        through: { attributes: ['quantity'] },
+      },
+      {
+        model: users,
+        as: 'seller',
+      },
+    ],
+  });
+    return results;
+};
+
+module.exports = {
+  postSale,
+  getSaleList,
+  updateStatus,
+  getSaleByIdWithFullInfo,
+  getAllSalesCustomerWithFullInfo,
+  getAllSalesSellerWithFullInfo,
+  getSaleWithProductsById,
+};
