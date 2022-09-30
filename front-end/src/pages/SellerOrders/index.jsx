@@ -1,41 +1,62 @@
-// import Header from '../../components/Header';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Header from '../../components/Header';
+import { getUserFromLocalStorage } from '../../Context/LocalStorage';
+import { getSellerOrdersApi } from '../../services/API';
+import SellerOrdersContainer from './styles';
+import dataTestIds from './testIds';
 
 export default function SellerOrder() {
+  const [seller, setSeller] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const infosDoVendedor = getUserFromLocalStorage('user');
+      const vendas = await getSellerOrdersApi(infosDoVendedor.id);
+      if (!seller) {
+        setSeller(vendas);
+      }
+    })();
+  }, [seller]);
+
   return (
-    <p>Seller Order</p>
-    // <div className="sellerOrders">
-    //   <Header />
-    //   {
-    //     sellerOrders && sellerOrders.map((e) => (
-    //       <>
-    //         <p
-    //           data-testid={ `seller_orders__element-order-id-${e.id}` }
-    //         >
-    //           {`Pedido ${e.id}`}
-    //         </p>
-    //         <p
-    //           data-testid={ `seller_orders__element-delivery-status-${e.id}` }
-    //         >
-    //           {e.satus}
-    //         </p>
-    //         <p
-    //           data-testid={ `seller_orders__element-order-date-${e.id}` }
-    //         >
-    //           {e.saleDate}
-    //         </p>
-    //         <p
-    //           data-testid={ `seller_orders__element-card-price-${e.id}` }
-    //         >
-    //           {e.totalPrice}
-    //         </p>
-    //         <p
-    //           data-testid={ `seller_orders__element-card-address-${e.id}` }
-    //         >
-    //           {e.deliveryAddress}
-    //         </p>
-    //       </>
-    //     ))
-    //   }
-    // </div>
+    <SellerOrdersContainer>
+      <Header />
+      <div className="seller-orders-container">
+        { seller && seller.map((e, i) => (
+          <Link key={ i } to={ `/seller/orders/${e.id}` }>
+            <div
+              className="seller-orders"
+            >
+              <span
+                data-testid={ `${dataTestIds[48]}${e.id}` }
+              >
+                {`Pedido ${e.id}`}
+              </span>
+              <span
+                data-testid={ `${dataTestIds[49]}${e.id}` }
+              >
+                {e.status}
+              </span>
+              <span
+                data-testid={ `${dataTestIds[50]}${e.id}` }
+              >
+                {new Date(e.saleDate).toLocaleDateString('pt-BR')}
+              </span>
+              <span
+                data-testid={ `${dataTestIds[51]}${e.id}` }
+              >
+                {e.totalPrice}
+              </span>
+              <span
+                data-testid={ `${dataTestIds[52]}${e.id}` }
+              >
+                {e.deliveryAddress}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </SellerOrdersContainer>
   );
 }

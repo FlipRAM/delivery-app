@@ -109,7 +109,7 @@ export const saveNewUserApi = async (userDTO, token) => {
 
 export const getAllSalesOfPerson = async (id) => {
   try {
-    const { data } = await axios.get(`http://localhost:3001/customer/orders/${id}`);
+    const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
 
     return data;
   } catch (AxiosError) {
@@ -133,10 +133,20 @@ export const getUserListApi = async (token) => {
 
 export const confirmUser = async (token) => {
   const correctStatus = 200;
-  const { status } = await axios.post('', {}, {
+  const { status } = await axios.post('http://localhost:3001/users/verify', {}, {
     headers: {
       Authorization: token,
     },
   });
   if (status === correctStatus) return true;
+};
+
+export const getSellerOrdersApi = async (id) => {
+  try {
+    const { data } = await axios(`http://localhost:3001/seller/${id}/orders`);
+    console.log(data);
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
 };

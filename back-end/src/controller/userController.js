@@ -18,6 +18,12 @@ const saveNewUser = async (request, response) => {
   response.status(201).json(results);
 };
 
+const checkValidUser = async (request, response) => {
+  const token = request.headers.authorization;
+  const user = await services.checkUser(token);
+  if (user) response.status(200).json();
+};
+
 const deleteUserById = async (request, response) => {
   const { id } = request.params;
   const token = request.headers.authorization;
@@ -26,4 +32,10 @@ const deleteUserById = async (request, response) => {
   response.status(204).json(results);
 };
 
-module.exports = { userController, getUserList, saveNewUser, deleteUserById };
+module.exports = {
+  userController,
+  checkValidUser,
+  getUserList,
+  saveNewUser,
+  deleteUserById,
+};

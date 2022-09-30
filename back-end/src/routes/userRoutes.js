@@ -7,6 +7,8 @@ userRouter.get('/users/sellers', controller.userController);
 
 userRouter.get('/users', controller.getUserList);
 
+userRouter.post('/users/verify', controller.checkValidUser);
+
 userRouter.post('/users', controller.saveNewUser);
 
 userRouter.delete('/users/:id', controller.deleteUserById);

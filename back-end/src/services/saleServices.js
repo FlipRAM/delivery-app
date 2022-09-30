@@ -50,7 +50,7 @@ const updateStatus = async (id, status) => {
   return sale.dataValues;
 };
 
-const getAllSalesWithFullInfo = async (id) => {
+const getAllSalesCustomerWithFullInfo = async (id) => {
   const results = await sales.findAll({ where: { userId: id } }, {
     include: [
       {
@@ -62,7 +62,8 @@ const getAllSalesWithFullInfo = async (id) => {
         model: users,
         as: 'seller',
       },
-    ] });
+    ],
+  });
     return results;
 };
 
@@ -73,9 +74,27 @@ const getSaleWithProductsById = async (id) => {
         model: products,
         as: 'product',
       },
-    ] });
+    ],
+  });
 
   return result;
+};
+
+const getAllSalesSellerWithFullInfo = async (id) => {
+  const results = await sales.findAll({ where: { sellerId: id } }, {
+    include: [
+      {
+        model: products,
+        as: 'product',
+        through: { attributes: ['quantity'] },
+      },
+      {
+        model: users,
+        as: 'seller',
+      },
+    ],
+  });
+    return results;
 };
 
 module.exports = {
@@ -83,6 +102,7 @@ module.exports = {
   getSaleList,
   updateStatus,
   getSaleByIdWithFullInfo,
-  getAllSalesWithFullInfo,
+  getAllSalesCustomerWithFullInfo,
+  getAllSalesSellerWithFullInfo,
   getSaleWithProductsById,
 };

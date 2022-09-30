@@ -31,6 +31,11 @@ const saveNewUser = async (userDTO, token) => {
   return dataValues;
 };
 
+const checkUser = async (token) => {
+  const user = verifyToken(token);
+  return user;
+};
+
 const deleteUserById = async (id, token) => {
   const userInfo = verifyToken(token);
 
@@ -40,4 +45,10 @@ const deleteUserById = async (id, token) => {
   return results;
 };
 
-module.exports = { getSellers, getUserList, saveNewUser, deleteUserById };
+module.exports = {
+  getSellers,
+  checkUser,
+  getUserList,
+  saveNewUser,
+  deleteUserById,
+};
