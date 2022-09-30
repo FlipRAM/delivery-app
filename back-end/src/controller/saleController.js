@@ -27,9 +27,9 @@ const updateStatus = async (request, response) => {
   response.status(200).json(results);
 };
 
-const getAllSalesWithFullInfo = async (request, response) => {
+const getAllSalesCustomerWithFullInfo = async (request, response) => {
   const { id } = request.params;
-  const results = await service.getAllSalesWithFullInfo(id);
+  const results = await service.getAllSalesCustomerWithFullInfo(id);
   response.status(200).json(results);
 };
 
@@ -40,11 +40,18 @@ const getSaleWithProductsById = async (request, response) => {
   response.status(200).json(result);
 };
 
+const getAllSalesSellerWithFullInfo = async (request, response) => {
+  const { id } = request.params;
+  const results = await service.getAllSalesSellerWithFullInfo(id);
+  response.status(200).json(results);
+};
+
 module.exports = {
   postSale,
   getSaleList,
   updateStatus,
   getSaleByIdWithFullInfo,
-  getAllSalesWithFullInfo,
+  getAllSalesCustomerWithFullInfo,
+  getAllSalesSellerWithFullInfo,
   getSaleWithProductsById,
 };

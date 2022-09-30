@@ -23,12 +23,19 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const customerURL = {
+      customer: ['customer', 'products'],
+      seller: ['seller', 'orders'],
+      admin: ['', ''],
+    };
     const checkIfLogged = async () => {
       const userLocal = getUserFromLocalStorage('user');
       if (userLocal) {
         const validUser = await confirmUser(userLocal.token);
         if (validUser) {
-          return navigate('/customer/products');
+          return navigate(
+            `/${customerURL[userLocal.role][0]}/${customerURL[userLocal.role][1]}`,
+          );
         }
       }
     };

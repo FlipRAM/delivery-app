@@ -92,7 +92,7 @@ export const updateStatusOrderApi = async (id, status) => {
 
 export const getAllSalesOfPerson = async (id) => {
   try {
-    const { data } = await axios.get(`http://localhost:3001/customer/orders/${id}`);
+    const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
 
     return data;
   } catch (AxiosError) {
@@ -108,4 +108,14 @@ export const confirmUser = async (token) => {
     },
   });
   if (status === correctStatus) return true;
+};
+
+export const getSellerOrdersApi = async (id) => {
+  try {
+    const { data } = await axios(`http://localhost:3001/seller/${id}/orders`);
+    console.log(data);
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
 };
