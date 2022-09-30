@@ -38,7 +38,6 @@ function Login() {
     }
 
     setUserData(apiResults);
-    console.log(apiResults);
 
     if (apiResults.status === RETURN_SUCCESS_STATUS
       && apiResults.data.role === 'customer') {

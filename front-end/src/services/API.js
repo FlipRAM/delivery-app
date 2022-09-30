@@ -52,7 +52,6 @@ export const confirmSaleApi = async (saleObj, products, token) => {
         Authorization: token,
       },
     });
-    console.log(id);
 
     return id;
   } catch (AxiosError) {
@@ -83,6 +82,36 @@ export const updateStatusOrderApi = async (id, status) => {
   try {
     const { data } = await axios.put((`http://localhost:3001/sales/${id}`), {
       status,
+    });
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const saveNewUserApi = async (userDTO, token) => {
+  try {
+    const { data } = await axios.post(('http://localhost:3001/users'), {
+      ...userDTO,
+    }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const getUserListApi = async (token) => {
+  try {
+    const { data } = await axios.get(('http://localhost:3001/users'), {
+      headers: {
+        Authorization: token,
+      },
     });
 
     return data;

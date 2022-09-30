@@ -1,29 +1,51 @@
-import React from 'react';
+import { AxiosError } from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { getUserFromLocalStorage } from '../../Context/LocalStorage';
+import { saveNewUserApi } from '../../services/API';
 import { FormContainer, FormContentContainer } from './styles';
 
 const USER_TYPE = ['administrator', 'customer', 'seller'];
+const RETURN_USER_DUPLICATE_STATUS = 409;
+const INITIAL_STATUS = 0;
 
 export default function FormAdmManager() {
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+  const [user, setUser] = useState({});
+  const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
+  const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm({
     mode: 'onChange',
   });
-  console.log(isValid);
+
+  useEffect(() => {
+    if (getUserFromLocalStorage('user') && !user.token) {
+      setUser(getUserFromLocalStorage('user'));
+    }
+  }, [user]);
+
+  const onSubmit = async (data, e) => {
+    e.preventDefault();
+    console.log(data);
+
+    const result = await saveNewUserApi(data, user.token);
+    console.log(result);
+
+    if (result instanceof AxiosError) {
+      return setStatusReturned(result.response.status);
+    }
+    reset();
+  };
 
   return (
     <FormContentContainer>
       <h1>Cadastrar novo usuário</h1>
       <FormContainer
-        onSubmit={ handleSubmit((data) => {
-          console.log(data);
-        }) }
-
+        onSubmit={ handleSubmit(onSubmit) }
       >
-        <label htmlFor="nome">
+        <label htmlFor="name">
           Nome
           <input
             { ...register(
-              'nome',
+              'name',
               {
                 required: true,
                 minLength: {
@@ -32,11 +54,11 @@ export default function FormAdmManager() {
                 } },
             ) }
             data-testid="admin_manage__input-name"
-            id="nome"
+            id="name"
             type="text"
             placeholder="Nome e sobrenome"
           />
-          {errors.nome && <p role="alert">{errors.nome?.message}</p>}
+          {errors.name && <p role="alert">{errors.name?.message}</p>}
         </label>
 
         <label htmlFor="email">
@@ -60,7 +82,7 @@ export default function FormAdmManager() {
         <label htmlFor="senha">
           Senha
           <input
-            { ...register('senha', {
+            { ...register('password', {
               required: true,
               minLength: {
                 value: 6,
@@ -68,17 +90,17 @@ export default function FormAdmManager() {
               },
             }) }
             data-testid="admin_manage__input-password"
-            id="senha"
+            id="password"
             type="password"
             placeholder="********"
           />
-          {errors.senha && <p role="alert">{errors.senha?.message}</p>}
+          {errors.password && <p role="alert">{errors.password?.message}</p>}
         </label>
         <label htmlFor="tipo">
           Tipo
           <select
-            { ...register('tipo', { required: true }) }
-            id="tipo"
+            { ...register('role', { required: true }) }
+            id="role"
             data-testid="admin_manage__select-role"
           >
             <option value="">Selecione o tipo (role)</option>
@@ -98,9 +120,9 @@ export default function FormAdmManager() {
         <span
           className="error-message"
           data-testis="admin_manage__element-invalid-register"
-          disabled={ false }
+          disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
         >
-          error message
+          {statusReturned === RETURN_USER_DUPLICATE_STATUS && 'errors'}
 
         </span>
       </FormContainer>
