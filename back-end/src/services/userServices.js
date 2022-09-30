@@ -1,4 +1,5 @@
 const { users } = require('../database/models');
+const verifyToken = require('../utils/JWT.verify');
 
 const getSellers = async () => {
   const results = await users.findAll({ where: { role: 'seller' } });
@@ -10,4 +11,9 @@ const getUserIdService = async (email) => {
   return id;
 };
 
-module.exports = { getSellers, getUserIdService };
+const checkUser = async (token) => {
+  const user = verifyToken(token);
+  return user;
+}
+
+module.exports = { getSellers, getUserIdService, checkUser };

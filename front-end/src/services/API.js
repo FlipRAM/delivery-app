@@ -52,7 +52,6 @@ export const confirmSaleApi = async (saleObj, products, token) => {
         Authorization: token,
       },
     });
-    console.log(id);
 
     return id;
   } catch (AxiosError) {
@@ -62,7 +61,7 @@ export const confirmSaleApi = async (saleObj, products, token) => {
 
 export const getSaleById = async (id) => {
   try {
-    const { data } = await axios.get((`http://localhost:3001/seller/sales/${id}`));
+    const { data } = await axios.get((`http://localhost:3001/sales/${id}`));
     return data;
   } catch (AxiosError) {
     return AxiosError;
@@ -89,4 +88,24 @@ export const updateStatusOrderApi = async (id, status) => {
   } catch (AxiosError) {
     return AxiosError;
   }
+};
+
+export const getAllSalesOfPerson = async (id) => {
+  try {
+    const { data } = await axios.get(`http://localhost:3001/customer/orders/${id}`);
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const confirmUser = async (token) => {
+  const correctStatus = 200;
+  const { status } = await axios.post('http://localhost:3001/users', {}, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === correctStatus) return true;
 };

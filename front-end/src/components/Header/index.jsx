@@ -22,6 +22,10 @@ export default function Header() {
     navigate('/login');
   };
 
+  const navigateToPath = (request) => {
+    navigate(`/${userInfo.role}/${request}`);
+  };
+
   return (
     <HeaderContainer>
       <div className="nav-left">
@@ -29,6 +33,7 @@ export default function Header() {
           data-testid="customer_products__element-navbar-link-products"
           className="nav-left-items produtos"
           type="button"
+          onClick={ () => navigateToPath('products') }
         >
           PRODUTOS
         </button>
@@ -36,6 +41,7 @@ export default function Header() {
           data-testid="customer_products__element-navbar-link-orders"
           className="nav-left-items pedidos"
           type="button"
+          onClick={ () => navigateToPath('orders') }
         >
           MEUS PEDIDOS
         </button>
