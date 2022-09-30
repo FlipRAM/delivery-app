@@ -94,14 +94,16 @@ export const updateStatusOrderApi = async (id, status) => {
 
 export const saveNewUserApi = async (userDTO, token) => {
   try {
-    const { data } = await axios.post((SALES), {
+    const result = await axios.post((SALES), {
       ...userDTO,
     }, {
       headers: {
         Authorization: token,
       },
     });
-    return data;
+
+    console.log(AxiosError);
+    return result.data;
   } catch (AxiosError) {
     return AxiosError;
   }
@@ -119,13 +121,13 @@ export const getAllSalesOfPerson = async (id) => {
 
 export const getUserListApi = async (token) => {
   try {
-    const { data } = await axios.get((SALES), {
+    const result = await axios.get((SALES), {
       headers: {
         Authorization: token,
       },
     });
 
-    return data;
+    return result.data;
   } catch (AxiosError) {
     return AxiosError;
   }

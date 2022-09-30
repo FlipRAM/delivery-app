@@ -26,14 +26,43 @@ export default function AdmManageUserList() {
 
   return (
     <UserListContainer>
-      <section>
+      <section className="user-list-container">
         {userList.length && userList.map((each, i) => (
-          <span key={ each.name + i }>
-            {each.name}
-          </span>
+          <aside key={ each.name + i } className="user-card-container">
+            <span
+              data-testid={ `admin_manage__element-user-table-item-number-${i}` }
+            >
+              {i + 1}
+            </span>
+
+            <span
+              data-testid={ `admin_manage__element-user-table-name-${i}` }
+            >
+              {each.name}
+            </span>
+
+            <span
+              data-testid={ `admin_manage__element-user-table-email-${i}` }
+            >
+              {each.email}
+            </span>
+
+            <span
+              data-testid={ `admin_manage__element-user-table-role-${i}` }
+            >
+              {each.role}
+            </span>
+
+            <button
+              data-testid={ `admin_manage__element-user-table-remove-${i}` }
+              type="button"
+            >
+              {each.name}
+            </button>
+
+          </aside>
         ))}
       </section>
-
     </UserListContainer>
   );
 }

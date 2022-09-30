@@ -70,12 +70,13 @@ export const FormContainer = styled.form`
 
   .error-message {
     position: absolute;
-    top: -40px;
-    left: 50%;
+    top: -60px;
+    left: 60%;
     transform: translateX(-50%);
     color: red;
     font-size: 1.3rem;
     padding: 4px 16px;
     border: 1px solid red;
+    z-index: 999;
   }
 `;

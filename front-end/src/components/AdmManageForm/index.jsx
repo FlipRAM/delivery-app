@@ -10,29 +10,26 @@ const RETURN_USER_DUPLICATE_STATUS = 409;
 const INITIAL_STATUS = 0;
 
 export default function FormAdmManager() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(undefined);
   const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
-  const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm({
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onChange',
   });
 
   useEffect(() => {
-    if (getUserFromLocalStorage('user') && !user.token) {
+    if (getUserFromLocalStorage('user') && !user) {
       setUser(getUserFromLocalStorage('user'));
     }
   }, [user]);
 
   const onSubmit = async (data, e) => {
     e.preventDefault();
-    console.log(data);
 
     const result = await saveNewUserApi(data, user.token);
-    console.log(result);
 
     if (result instanceof AxiosError) {
       return setStatusReturned(result.response.status);
     }
-    reset();
   };
 
   return (
@@ -79,7 +76,7 @@ export default function FormAdmManager() {
           {errors.mail && <p role="alert">{errors.email?.message}</p>}
         </label>
 
-        <label htmlFor="senha">
+        <label htmlFor="password">
           Senha
           <input
             { ...register('password', {
@@ -96,7 +93,7 @@ export default function FormAdmManager() {
           />
           {errors.password && <p role="alert">{errors.password?.message}</p>}
         </label>
-        <label htmlFor="tipo">
+        <label htmlFor="role">
           Tipo
           <select
             { ...register('role', { required: true }) }
@@ -119,7 +116,7 @@ export default function FormAdmManager() {
 
         <span
           className="error-message"
-          data-testis="admin_manage__element-invalid-register"
+          data-testid="admin_manage__element-invalid-register"
           disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
         >
           {statusReturned === RETURN_USER_DUPLICATE_STATUS && 'errors'}
