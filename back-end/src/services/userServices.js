@@ -42,7 +42,13 @@ const deleteUserById = async (id, token) => {
 
   if (userInfo.role !== 'administrator') throw new ErrorProvider(403, 'Usuário nao autorizado');
 
-  const results = await users.delete({ where: { id } });
+  const checkReturn = await users.destroy({ where: { id } });
+
+  if (!checkReturn) throw new ErrorProvider(404, 'Id Invalido');
+
+  const results = await getUserList();
+  console.log(results);
+  
   return results;
 };
 

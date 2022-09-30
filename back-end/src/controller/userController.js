@@ -29,7 +29,7 @@ const deleteUserById = async (request, response) => {
   const token = request.headers.authorization;
   
   const results = await services.deleteUserById(id, token);
-  response.status(204).json(results);
+  response.status(201).json(results);
 };
 
 module.exports = {

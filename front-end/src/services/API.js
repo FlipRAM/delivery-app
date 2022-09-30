@@ -102,8 +102,21 @@ export const saveNewUserApi = async (userDTO, token) => {
       },
     });
 
-    console.log(AxiosError);
     return result.data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const removeUserApi = async (id, token) => {
+  try {
+    const result = await axios.delete(`http://localhost:3001/users/${id}`, {}, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result;
   } catch (AxiosError) {
     return AxiosError;
   }
