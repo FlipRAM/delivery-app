@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import ButtonRegister from '../../components/ButtonRegister';
 import { useAppContext } from '../../Context/APIProvider';
 import emailValidate from '../../helpers/emailRegexValidate';
-import { postLoginApi } from '../../services/API';
+import { postLoginApi, confirmUser } from '../../services/API';
+import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import { LoginButton, LoginContainer, LoginForm } from './styles';
 
 const PASSWORD_MIN = 6;
@@ -20,6 +21,19 @@ function Login() {
   const { setUserData } = useContext(useAppContext);
   const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkIfLogged = async () => {
+      const userLocal = getUserFromLocalStorage('user');
+      if (userLocal) {
+        const validUser = await confirmUser(userLocal.token);
+        if (validUser) {
+          return navigate('/customer/products');
+        }
+      }
+    };
+    checkIfLogged();
+  }, [navigate]);
 
   useEffect(() => {
     if (emailValidate(email) && password.length >= PASSWORD_MIN) {
@@ -42,6 +56,10 @@ function Login() {
     if (apiResults.status === RETURN_SUCCESS_STATUS
       && apiResults.data.role === 'customer') {
       navigate('/customer/products');
+    }
+    if (apiResults.status === RETURN_SUCCESS_STATUS
+      && apiResults.data.role === 'seller') {
+      navigate('/seller/orders');
     }
     if (apiResults.status === RETURN_SUCCESS_STATUS
       && apiResults.data.role === 'administrator') {

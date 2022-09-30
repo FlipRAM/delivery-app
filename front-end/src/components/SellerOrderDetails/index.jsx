@@ -2,41 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
   getSaleById,
-  listSalesWithFullInfoApi,
   updateStatusOrderApi,
 } from '../../services/API';
 
 export default function CheckoutProducts() {
-  const [sale, setSale] = useState({});
-  const [productsList, setProductsList] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  const [sale, setSale] = useState(undefined);
   const { id } = useParams();
 
   const status4Test = 'seller_order_details__element-order-details-label-delivery-status';
 
   useEffect(() => {
     const getSale = async (idToSearch) => {
-      const saleById = getSaleById(idToSearch);
+      const saleById = await getSaleById(idToSearch);
       return setSale(saleById);
     };
     getSale(id);
-
-    const getProducts = async (idToSearch) => {
-      const productsOfSale = listSalesWithFullInfoApi(idToSearch);
-      return setProductsList(productsOfSale);
-    };
-    getProducts(id);
   }, [id]);
-
-  useEffect(() => {
-    const price = sale.reduce(
-      (previousValue, currentElement) => previousValue + (
-        currentElement.price * currentElement.quantity
-      ),
-      0,
-    );
-    setTotalPrice(price);
-  }, [sale]);
 
   const changeStatus = async (stringStatus) => {
     const saleUpdated = await updateStatusOrderApi(id, stringStatus);
@@ -56,7 +37,7 @@ export default function CheckoutProducts() {
             <p
               data-testid="seller_order_details__element-order-details-label-order-date"
             >
-              {`${sale.date}`}
+              {`${new Date(sale.saleDate).toLocaleDateString('pt-BR')}`}
             </p>
             <p
               data-testid={ status4Test }
@@ -66,7 +47,7 @@ export default function CheckoutProducts() {
             <button
               data-testid="seller_order_details__button-preparing-check"
               type="button"
-              disabled={ sale.status === 'Pendente' }
+              disabled={ sale.status !== 'Pendente' }
               onClick={ () => changeStatus('Preparando') }
             >
               PREPARAR PEDIDO
@@ -74,7 +55,7 @@ export default function CheckoutProducts() {
             <button
               data-testid="seller_order_details__button-dispatch-check"
               type="button"
-              disabled={ sale.status === 'Preparando' }
+              disabled={ sale.status !== 'Preparando' }
               onClick={ () => changeStatus('Em Trânsito') }
             >
               SAIU PARA ENTREGA
@@ -83,7 +64,7 @@ export default function CheckoutProducts() {
         )}
       </div>
       <div>
-        { productsList && productsList.map((product, index) => (
+        { sale && sale.product.map((product, index) => (
           <div key={ product.id }>
             <p
               data-testid={
@@ -106,7 +87,7 @@ export default function CheckoutProducts() {
                     `seller_order_details__element-order-table-quantity-${index}`
                   }
                 >
-                  {product.quantity}
+                  {product.salesProducts.quantity}
                 </p>
                 <p
                   data-testid={
@@ -120,19 +101,21 @@ export default function CheckoutProducts() {
                     `seller_order_details__element-order-table-sub-total-${index}`
                   }
                 >
-                  {parseFloat(product.price * product.quantity)
+                  {parseFloat(product.price * product.salesProducts.quantity)
                     .toFixed(2).replace('.', ',')}
                 </p>
               </div>
             </div>
           </div>
         ))}
-        <p>
-          Total: R$
-          <span data-testid="seller_order_details__element-order-total-price">
-            {`${parseFloat(totalPrice).toFixed(2).replace('.', ',')}`}
-          </span>
-        </p>
+        { sale && (
+          <p>
+            Total: R$
+            <span data-testid="seller_order_details__element-order-total-price">
+              {`${parseFloat(sale.totalPrice).toFixed(2).replace('.', ',')}`}
+            </span>
+          </p>
+        )}
       </div>
     </div>
   );

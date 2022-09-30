@@ -1,5 +1,7 @@
 import * as axios from 'axios';
 
+const SALES = 'http://localhost:3001/users';
+
 export const postLoginApi = async (data) => {
   try {
     const result = await axios.post(('http://localhost:3001/login'), {
@@ -34,7 +36,7 @@ export const listProductsApi = async () => {
 
 export const listSellersApi = async () => {
   try {
-    const { data } = await axios('http://localhost:3001/users/sellers');
+    const { data } = await axios('/sellers');
 
     return data;
   } catch (AxiosError) {
@@ -61,7 +63,7 @@ export const confirmSaleApi = async (saleObj, products, token) => {
 
 export const getSaleById = async (id) => {
   try {
-    const { data } = await axios.get((`http://localhost:3001/seller/sales/${id}`));
+    const { data } = await axios.get((`http://localhost:3001/sales/${id}`));
     return data;
   } catch (AxiosError) {
     return AxiosError;
@@ -92,9 +94,32 @@ export const updateStatusOrderApi = async (id, status) => {
 
 export const saveNewUserApi = async (userDTO, token) => {
   try {
-    const { data } = await axios.post(('http://localhost:3001/users'), {
+    const { data } = await axios.post((SALES), {
       ...userDTO,
     }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const getAllSalesOfPerson = async (id) => {
+  try {
+    const { data } = await axios.get(`http://localhost:3001/customer/orders/${id}`);
+
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const getUserListApi = async (token) => {
+  try {
+    const { data } = await axios.get((SALES), {
       headers: {
         Authorization: token,
       },
@@ -106,16 +131,12 @@ export const saveNewUserApi = async (userDTO, token) => {
   }
 };
 
-export const getUserListApi = async (token) => {
-  try {
-    const { data } = await axios.get(('http://localhost:3001/users'), {
-      headers: {
-        Authorization: token,
-      },
-    });
-
-    return data;
-  } catch (AxiosError) {
-    return AxiosError;
-  }
+export const confirmUser = async (token) => {
+  const correctStatus = 200;
+  const { status } = await axios.post('', {}, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  if (status === correctStatus) return true;
 };
