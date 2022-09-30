@@ -14,6 +14,6 @@ const getUserIdService = async (email) => {
 const checkUser = async (token) => {
   const user = verifyToken(token);
   return user;
-}
+};
 
 module.exports = { getSellers, getUserIdService, checkUser };

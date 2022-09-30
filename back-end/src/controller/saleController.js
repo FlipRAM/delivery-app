@@ -31,13 +31,20 @@ const getAllSalesWithFullInfo = async (request, response) => {
   const { id } = request.params;
   const results = await service.getAllSalesWithFullInfo(id);
   response.status(200).json(results);
-}
+};
 
 const getSaleWithProductsById = async (request, response) => {
   const { id } = request.params;
   const result = await service.getSaleWithProductsById(id);
 
   response.status(200).json(result);
-}
+};
 
-module.exports = { postSale, getSaleList, updateStatus, getSaleByIdWithFullInfo, getAllSalesWithFullInfo, getSaleWithProductsById };
+module.exports = {
+  postSale,
+  getSaleList,
+  updateStatus,
+  getSaleByIdWithFullInfo,
+  getAllSalesWithFullInfo,
+  getSaleWithProductsById,
+};

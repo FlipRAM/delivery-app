@@ -16,6 +16,6 @@ const checkValidUser = async (request, response) => {
   const user = await checkUser(token);
 
   if (user) response.status(200).json();
-}
+};
 
 module.exports = { userController, getUserId, checkValidUser };

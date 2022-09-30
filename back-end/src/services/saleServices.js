@@ -51,7 +51,7 @@ const updateStatus = async (id, status) => {
 };
 
 const getAllSalesWithFullInfo = async (id) => {
-  const results = await sales.findAll({ where: { userId: id } },{
+  const results = await sales.findAll({ where: { userId: id } }, {
     include: [
       {
         model: products,
@@ -62,20 +62,29 @@ const getAllSalesWithFullInfo = async (id) => {
         model: users,
         as: 'seller',
       },
-    ]});
+    ],
+  });
     return results;
-}
+};
 
-const getSaleWithProductsById = async(id) => {
-  const result = await sales.findOne({ where: { id } ,
+const getSaleWithProductsById = async (id) => {
+  const result = await sales.findOne({ where: { id },
     include: [
       {
         model: products,
         as: 'product',
       },
-    ]});
+    ],
+  });
 
   return result;
-}
+};
 
-module.exports = { postSale, getSaleList, updateStatus, getSaleByIdWithFullInfo, getAllSalesWithFullInfo, getSaleWithProductsById };
+module.exports = {
+  postSale,
+  getSaleList,
+  updateStatus,
+  getSaleByIdWithFullInfo,
+  getAllSalesWithFullInfo,
+  getSaleWithProductsById,
+};
