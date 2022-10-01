@@ -26,7 +26,7 @@ function Login() {
     const customerURL = {
       customer: ['customer', 'products'],
       seller: ['seller', 'orders'],
-      admin: ['', ''],
+      administrator: ['admin', 'manage'],
     };
     const checkIfLogged = async () => {
       const userLocal = getUserFromLocalStorage('user');

@@ -19,9 +19,9 @@ export const postRegisterApi = async (data) => {
     const result = await axios.post(('http://localhost:3001/register'), {
       ...data,
     });
-    return { hasToken: false, method: 'POST', status: result.status };
+    return result;
   } catch (AxiosError) {
-    return { hasToken: false, method: 'POST', status: AxiosError.response.status };
+    return AxiosError;
   }
 };
 
