@@ -1,6 +1,6 @@
 const services = require('../services/userServices');
 
-const userController = async (_request, response) => {
+const getSellers = async (_request, response) => {
   const sellers = await services.getSellers();
   response.status(200).json(sellers);
 };
@@ -33,7 +33,7 @@ const deleteUserById = async (request, response) => {
 };
 
 module.exports = {
-  userController,
+  getSellers,
   checkValidUser,
   getUserList,
   saveNewUser,

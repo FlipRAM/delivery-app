@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import { getAllSalesOfPerson } from '../../services/API';
 import Header from '../../components/Header';
+import CustomerOrdersContainer from './styles';
 
 export default function CustomerOrders() {
   const [sales, setSales] = useState([]);
@@ -17,12 +18,16 @@ export default function CustomerOrders() {
   }, [id]);
 
   return (
-    <div>
+    <CustomerOrdersContainer>
       <Header />
-      <div>
+      <div className="sales-list-container">
         { sales && sales.map((sale) => (
-          <Link to={ `/customer/orders/${sale.id}` } key={ sale.id }>
-            <div>
+          <Link
+            to={ `/customer/orders/${sale.id}` }
+            key={ sale.id }
+
+          >
+            <div className="sales-card-container">
               <p>
                 PEDIDO
                 <span data-testid={ `customer_orders__element-order-id-${sale.id}` }>
@@ -34,22 +39,22 @@ export default function CustomerOrders() {
               >
                 {`${sale.status}`}
               </p>
-              <div>
-                <p
-                  data-testid={ `customer_orders__element-order-date-${sale.id}` }
-                >
-                  {`${new Date(sale.saleDate).toLocaleDateString('pt-BR')}`}
-                </p>
-                <p
-                  data-testid={ `customer_orders__element-card-price-${sale.id}` }
-                >
-                  {`R$ ${sale.totalPrice.replace('.', ',')}`}
-                </p>
-              </div>
+
+              <p
+                data-testid={ `customer_orders__element-order-date-${sale.id}` }
+              >
+                {`${new Date(sale.saleDate).toLocaleDateString('pt-BR')}`}
+              </p>
+              <p
+                data-testid={ `customer_orders__element-card-price-${sale.id}` }
+              >
+                {`R$ ${sale.totalPrice.replace('.', ',')}`}
+              </p>
+
             </div>
           </Link>
         ))}
       </div>
-    </div>
+    </CustomerOrdersContainer>
   );
 }

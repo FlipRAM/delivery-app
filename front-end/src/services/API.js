@@ -36,7 +36,7 @@ export const listProductsApi = async () => {
 
 export const listSellersApi = async () => {
   try {
-    const { data } = await axios('/sellers');
+    const { data } = await axios('http://localhost:3001/users/sellers');
 
     return data;
   } catch (AxiosError) {
