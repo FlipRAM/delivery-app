@@ -111,6 +111,7 @@ function Login() {
 
         </LoginButton>
         <ButtonRegister />
+
         {statusReturned === RETURN_NOT_FOUND_STATUS
           ? (
             <span

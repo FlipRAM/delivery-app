@@ -1,7 +1,9 @@
+import { AxiosError } from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import emailValidate from '../../helpers/emailRegexValidate';
 import { postRegisterApi } from '../../services/API';
+import { RegisterButton, RegisterContainer, RegisterForm } from './styles';
 
 const NAME_MIN = 12;
 const PASSWORD_MIN = 6;
@@ -22,6 +24,7 @@ function Register() {
   const navigateToCustomerProducts = () => {
     navigate('/customer/products');
   };
+
   useEffect(() => {
     if (
       emailValidate(email)
@@ -36,13 +39,17 @@ function Register() {
 
   const handlePostRegisterApi = async () => {
     const returnApi = await postRegisterApi({ name, email, password });
-    if (returnApi.status !== RETURN_CONFLICT_STATUS) navigateToCustomerProducts();
-    setReturnPost(returnApi);
+
+    if (returnApi instanceof AxiosError) {
+      return setReturnPost(returnApi.response.status);
+    }
+
+    navigateToCustomerProducts();
   };
 
   return (
-    <div className="bg-green-600">
-      <form>
+    <RegisterContainer>
+      <RegisterForm>
         <label htmlFor="name">
           Nome
           <input
@@ -77,24 +84,25 @@ function Register() {
             placeholder="********"
           />
         </label>
-        <button
+        <RegisterButton
           data-testid="common_register__button-register"
           type="button"
           disabled={ formValuesIsInvalid }
           onClick={ handlePostRegisterApi }
         >
           CADASTRAR
-        </button>
-        {returnPost.status === RETURN_CONFLICT_STATUS
+        </RegisterButton>
+
+        {returnPost === RETURN_CONFLICT_STATUS
           ? (
-            <p
+            <span
               data-testid="common_register__element-invalid_register"
             >
-              Email e nome já cadastrados
-            </p>
+              Email ou nome já cadastrados
+            </span>
           ) : ''}
-      </form>
-    </div>
+      </RegisterForm>
+    </RegisterContainer>
   );
 }
 

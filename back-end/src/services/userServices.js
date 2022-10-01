@@ -17,11 +17,11 @@ const saveNewUser = async (userDTO, token) => {
   const userInfo = verifyToken(token);
   if (userInfo.role !== 'administrator') throw new ErrorProvider(401, 'Usuário nao autorizado');
   
-  const checkUser = await getUserList();
-  const validateInfo = checkUser
+  const userList = await getUserList();
+  const validateIfExists = userList
   .some(({ name, email }) => userDTO.name === name || userDTO.email === email);
   
-  if (validateInfo) {
+  if (validateIfExists) {
     throw new ErrorProvider(409, 'Usuário ja cadastrado');
   }
   
@@ -32,7 +32,7 @@ const saveNewUser = async (userDTO, token) => {
   // return results.dataValues;
 };
 
-const checkUser = async (token) => {
+const userList = async (token) => {
   const user = verifyToken(token);
   return user;
 };
@@ -54,7 +54,7 @@ const deleteUserById = async (id, token) => {
 
 module.exports = {
   getSellers,
-  checkUser,
+  userList,
   getUserList,
   saveNewUser,
   deleteUserById,

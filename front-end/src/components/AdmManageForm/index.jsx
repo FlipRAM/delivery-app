@@ -119,7 +119,8 @@ export default function FormAdmManager() {
           data-testid="admin_manage__element-invalid-register"
           disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
         >
-          {statusReturned === RETURN_USER_DUPLICATE_STATUS && 'errors'}
+          {statusReturned === RETURN_USER_DUPLICATE_STATUS
+            && 'Nome ou Email ja cadastrado'}
 
         </span>
       </FormContainer>
