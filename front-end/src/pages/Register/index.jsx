@@ -22,6 +22,7 @@ function Register() {
   const navigateToCustomerProducts = () => {
     navigate('/customer/products');
   };
+
   useEffect(() => {
     if (
       emailValidate(email)
