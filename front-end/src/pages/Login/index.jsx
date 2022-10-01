@@ -45,7 +45,7 @@ function Login() {
       }
     };
     checkIfLogged();
-  }, [navigate]);
+  }, [customAlert, navigate]);
 
   useEffect(() => {
     if (emailValidate(email) && password.length >= PASSWORD_MIN) {
