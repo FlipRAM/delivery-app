@@ -1,5 +1,7 @@
 import * as axios from 'axios';
 
+const SALES = 'http://localhost:3001/users';
+
 export const postLoginApi = async (data) => {
   try {
     const result = await axios.post(('http://localhost:3001/login'), {
@@ -17,9 +19,9 @@ export const postRegisterApi = async (data) => {
     const result = await axios.post(('http://localhost:3001/register'), {
       ...data,
     });
-    return { hasToken: false, method: 'POST', status: result.status };
+    return result;
   } catch (AxiosError) {
-    return { hasToken: false, method: 'POST', status: AxiosError.response.status };
+    return AxiosError;
   }
 };
 
@@ -34,7 +36,7 @@ export const listProductsApi = async () => {
 
 export const listSellersApi = async () => {
   try {
-    const { data } = await axios('http://localhost:3001/users/sellers');
+    const { data } = await axios('/sellers');
 
     return data;
   } catch (AxiosError) {
@@ -90,6 +92,36 @@ export const updateStatusOrderApi = async (id, status) => {
   }
 };
 
+export const saveNewUserApi = async (userDTO, token) => {
+  try {
+    const result = await axios.post((SALES), {
+      ...userDTO,
+    }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result.data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const removeUserApi = async (id, token) => {
+  try {
+    const result = await axios.delete(`http://localhost:3001/users/${id}`, {}, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
 export const getAllSalesOfPerson = async (id) => {
   try {
     const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
@@ -100,9 +132,23 @@ export const getAllSalesOfPerson = async (id) => {
   }
 };
 
+export const getUserListApi = async (token) => {
+  try {
+    const result = await axios.get((SALES), {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result.data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
 export const confirmUser = async (token) => {
   const correctStatus = 200;
-  const { status } = await axios.post('http://localhost:3001/users', {}, {
+  const { status } = await axios.post('http://localhost:3001/users/verify', {}, {
     headers: {
       Authorization: token,
     },

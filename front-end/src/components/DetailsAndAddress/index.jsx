@@ -45,6 +45,7 @@ export default function DetailsAndAddress() {
       deliveryNumber: number,
     };
     const id = await confirmSaleApi(saleObj, checkoutList, user.token);
+
     return navigate(`/customer/orders/${id}`);
   };
 
