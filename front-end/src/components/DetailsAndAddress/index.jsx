@@ -95,7 +95,7 @@ export default function DetailsAndAddress() {
         data-testid="customer_checkout__button-submit-order"
         type="button"
         disabled={ !idSelected }
-        onClick={ () => confirmSale() }
+        onClick={ confirmSale }
       >
         FINALIZAR PEDIDO
       </button>
