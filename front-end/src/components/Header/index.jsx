@@ -13,6 +13,9 @@ export default function Header() {
     if (getUserFromLocalStorage('user') && !userLog) {
       setUserInfo(getUserFromLocalStorage('user'));
     }
+    if (userLog) {
+      setUserInfo(userLog);
+    }
   }, [userLog]);
 
   const handleLogoutUser = () => {

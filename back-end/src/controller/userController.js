@@ -20,8 +20,8 @@ const saveNewUser = async (request, response) => {
 
 const checkValidUser = async (request, response) => {
   const token = request.headers.authorization;
-  const user = await services.checkUser(token);
-  if (user) response.status(200).json();
+  const result = await services.checkUser(token);
+  response.status(200).json(result);
 };
 
 const deleteUserById = async (request, response) => {

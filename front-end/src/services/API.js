@@ -147,13 +147,16 @@ export const getUserListApi = async (token) => {
 };
 
 export const confirmUser = async (token) => {
-  const correctStatus = 200;
-  const { status } = await axios.post('http://localhost:3001/users/verify', {}, {
-    headers: {
-      Authorization: token,
-    },
-  });
-  if (status === correctStatus) return true;
+  try {
+    const data = await axios.post('http://localhost:3001/users/verify', {}, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
 };
 
 export const getSellerOrdersApi = async (id) => {

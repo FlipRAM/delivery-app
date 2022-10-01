@@ -28,6 +28,9 @@ const HeaderContainer = styled.div`
       color: black;
       border: none;
       
+            :hover {
+        filter: brightness(1.2);
+      }
     }
     
     .pedidos {

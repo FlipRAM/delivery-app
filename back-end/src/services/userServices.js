@@ -52,10 +52,16 @@ const deleteUserById = async (id, token) => {
   return results;
 };
 
+const checkUser = async (token) => {
+  const user = verifyToken(token);
+  return user;
+};
+
 module.exports = {
   getSellers,
   userList,
   getUserList,
   saveNewUser,
   deleteUserById,
+  checkUser,
 };

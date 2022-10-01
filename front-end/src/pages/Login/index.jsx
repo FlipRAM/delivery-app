@@ -21,6 +21,7 @@ function Login() {
   const { setUserData } = useContext(useAppContext);
   const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
   const navigate = useNavigate();
+  const customAlert = alert;
 
   useEffect(() => {
     const customerURL = {
@@ -32,6 +33,10 @@ function Login() {
       const userLocal = getUserFromLocalStorage('user');
       if (userLocal) {
         const validUser = await confirmUser(userLocal.token);
+
+        if (validUser instanceof AxiosError) {
+          customAlert('token invalido');
+        }
         if (validUser) {
           return navigate(
             `/${customerURL[userLocal.role][0]}/${customerURL[userLocal.role][1]}`,

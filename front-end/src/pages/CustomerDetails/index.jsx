@@ -6,8 +6,9 @@ import CustomerDetailsContainer from './styles';
 import dataTestIds from './testsIds';
 
 export default function CostumerOrderDetails() {
-  const [sale, setSale] = useState({});
+  const [sale, setSale] = useState(undefined);
   const { id } = useParams();
+
   useEffect(() => {
     (async () => {
       setSale(await listSalesWithFullInfoApi(id));
@@ -24,7 +25,7 @@ export default function CostumerOrderDetails() {
       <Header />
       <h1>Detalhe do Pedido</h1>
       {
-        sale.id
+        sale
           && (
             <div>
               <div className="label-order">
