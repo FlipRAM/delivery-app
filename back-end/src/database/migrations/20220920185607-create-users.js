@@ -22,6 +22,7 @@ module.exports = {
       },
       role: {
         allowNull: true,
+        defaultValue: 'customer',
         type: Sequelize.STRING
       }
     });
