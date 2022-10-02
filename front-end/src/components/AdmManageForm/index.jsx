@@ -131,16 +131,16 @@ export default function FormAdmManager() {
           CADASTRAR
         </button>
 
-      </FormContainer>
-      <span
-        className="error-message"
-        data-testid="admin_manage__element-invalid-register"
-        disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
-      >
-        {statusReturned === RETURN_USER_DUPLICATE_STATUS
+        <span
+          className="error-message"
+          data-testid="admin_manage__element-invalid-register"
+          disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
+        >
+          {statusReturned === RETURN_USER_DUPLICATE_STATUS
             && 'Nome ou Email ja cadastrado'}
 
-      </span>
+        </span>
+      </FormContainer>
     </FormContentContainer>
   );
 }
