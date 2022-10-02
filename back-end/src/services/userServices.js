@@ -9,7 +9,7 @@ const getSellers = async () => {
 };
 
 const getUserList = async () => {
-  const results = await users.findAll();
+  const results = await users.findAll({ raw: true });
   return results;
 };
 
@@ -48,8 +48,7 @@ const deleteUserById = async (id, token) => {
 
   const results = await getUserList();
   console.log(results);
-  
-  return results;
+  return results.dataValues;
 };
 
 const checkUser = async (token) => {

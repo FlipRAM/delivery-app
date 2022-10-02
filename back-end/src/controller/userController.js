@@ -13,7 +13,7 @@ const getUserList = async (_request, response) => {
 const saveNewUser = async (request, response) => {
   const userDTO = request.body;
   const token = request.headers.authorization;
-
+  
   await services.saveNewUser(userDTO, token);
   response.status(201).end();
 };
@@ -26,9 +26,9 @@ const checkValidUser = async (request, response) => {
 
 const deleteUserById = async (request, response) => {
   const { id } = request.params;
-  const token = request.headers.authorization;
+  const token = request.body;
   
-  const results = await services.deleteUserById(id, token);
+  const results = await services.deleteUserById(id, token.token);
   response.status(201).json(results);
 };
 
