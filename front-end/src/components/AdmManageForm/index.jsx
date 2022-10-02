@@ -9,6 +9,7 @@ import { FormContainer, FormContentContainer } from './styles';
 const USER_TYPE = ['administrator', 'customer', 'seller'];
 const RETURN_USER_DUPLICATE_STATUS = 409;
 const INITIAL_STATUS = 0;
+const ERROR_MSG_TIMER = 2000;
 
 export default function FormAdmManager() {
   const { setUserList } = useContext(useAppContext);
@@ -30,7 +31,11 @@ export default function FormAdmManager() {
     const result = await saveNewUserApi(data, user.token);
 
     if (result instanceof AxiosError) {
-      return setStatusReturned(result.response.status);
+      setStatusReturned(result.response.status);
+
+      setTimeout(() => {
+        setStatusReturned(INITIAL_STATUS);
+      }, ERROR_MSG_TIMER);
     }
 
     setUserList(result.data);

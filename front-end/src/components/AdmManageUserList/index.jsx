@@ -19,7 +19,7 @@ export default function AdmManageUserList() {
     (async () => {
       if (!userList && user) {
         const data = await getUserListApi(user.id);
-        console.log(data);
+
         setUserList(data.data);
       }
     })();
@@ -27,7 +27,7 @@ export default function AdmManageUserList() {
 
   const handleToRemoveUser = async (event) => {
     const data = await removeUserApi(event.target.value, user.token);
-    console.log(data);
+
     setUserList(data.data);
   };
 
