@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import { useAppContext } from '../../Context/APIProvider';
 import { listSalesWithFullInfoApi, updateStatusOrderApi } from '../../services/API';
 import CustomerDetailsContainer from './styles';
 import dataTestIds from './testsIds';
 
 export default function CostumerOrderDetails() {
-  const [sale, setSale] = useState({});
+  const { sale, setSale } = useContext(useAppContext);
   const { id } = useParams();
+
   useEffect(() => {
     (async () => {
-      setSale(await listSalesWithFullInfoApi(id));
+      const data = await listSalesWithFullInfoApi(id);
+      setSale(data);
     })();
-  }, [id]);
+  }, [id, setSale]);
 
   const handleUpdateStatus = async () => {
     const result = await updateStatusOrderApi(id, 'Entregue');
-    setSale(result);
+    setSale(result.data);
   };
 
   return (
@@ -24,7 +27,7 @@ export default function CostumerOrderDetails() {
       <Header />
       <h1>Detalhe do Pedido</h1>
       {
-        sale.id
+        sale
           && (
             <div>
               <div className="label-order">
@@ -50,7 +53,7 @@ export default function CostumerOrderDetails() {
                 </span>
                 <button
                   type="button"
-                  disabled={ sale.status !== 'Em trânsito' }
+                  disabled={ sale.status !== 'Em Trânsito' }
                   onClick={ handleUpdateStatus }
                   data-testid={ dataTestIds[47] }
                 >

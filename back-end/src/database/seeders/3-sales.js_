@@ -25,7 +25,7 @@ module.exports = {
         total_price: 60.00,
         delivery_address: 'rua castro alves',
         delivery_number: 'abc456',
-        status: 'Em trânsito'
+        status: 'Em Trânsito'
       }
     ]);
   },

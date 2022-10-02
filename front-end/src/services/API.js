@@ -1,5 +1,7 @@
 import * as axios from 'axios';
 
+const USERS_ROUTE_MAIN = 'http://localhost:3001/users';
+
 export const postLoginApi = async (data) => {
   try {
     const result = await axios.post(('http://localhost:3001/login'), {
@@ -17,9 +19,9 @@ export const postRegisterApi = async (data) => {
     const result = await axios.post(('http://localhost:3001/register'), {
       ...data,
     });
-    return { hasToken: false, method: 'POST', status: result.status };
+    return result;
   } catch (AxiosError) {
-    return { hasToken: false, method: 'POST', status: AxiosError.response.status };
+    return AxiosError;
   }
 };
 
@@ -80,7 +82,7 @@ export const listSalesWithFullInfoApi = async (id) => {
 
 export const updateStatusOrderApi = async (id, status) => {
   try {
-    const { data } = await axios.put((`http://localhost:3001/sales/${id}`), {
+    const data = await axios.put((`http://localhost:3001/sales/${id}`), {
       status,
     });
 
@@ -90,9 +92,34 @@ export const updateStatusOrderApi = async (id, status) => {
   }
 };
 
+export const saveNewUserApi = async (userDTO, token) => {
+  try {
+    const result = await axios.post((USERS_ROUTE_MAIN), {
+      ...userDTO,
+    }, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
+export const removeUserApi = async (id, token) => {
+  try {
+    const result = await axios.delete(`http://localhost:3001/users/${id}`, { data: { token } });
+    return result;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
 export const getAllSalesOfPerson = async (id) => {
   try {
-    const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
+    const data = await axios.get(`http://localhost:3001/customer/${id}/orders`);
 
     return data;
   } catch (AxiosError) {
@@ -100,20 +127,37 @@ export const getAllSalesOfPerson = async (id) => {
   }
 };
 
+export const getUserListApi = async (token) => {
+  try {
+    const result = await axios.get((USERS_ROUTE_MAIN), {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return result;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
+};
+
 export const confirmUser = async (token) => {
-  const correctStatus = 200;
-  const { status } = await axios.post('http://localhost:3001/users', {}, {
-    headers: {
-      Authorization: token,
-    },
-  });
-  if (status === correctStatus) return true;
+  try {
+    const data = await axios.post('http://localhost:3001/users/verify', {}, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return data;
+  } catch (AxiosError) {
+    return AxiosError;
+  }
 };
 
 export const getSellerOrdersApi = async (id) => {
   try {
-    const { data } = await axios(`http://localhost:3001/seller/${id}/orders`);
-    console.log(data);
+    const data = await axios(`http://localhost:3001/seller/${id}/orders`);
+
     return data;
   } catch (AxiosError) {
     return AxiosError;

@@ -21,17 +21,22 @@ function Login() {
   const { setUserData } = useContext(useAppContext);
   const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
   const navigate = useNavigate();
+  const customAlert = alert;
 
   useEffect(() => {
     const customerURL = {
       customer: ['customer', 'products'],
       seller: ['seller', 'orders'],
-      admin: ['', ''],
+      administrator: ['admin', 'manage'],
     };
     const checkIfLogged = async () => {
       const userLocal = getUserFromLocalStorage('user');
       if (userLocal) {
         const validUser = await confirmUser(userLocal.token);
+
+        if (validUser instanceof AxiosError) {
+          customAlert('token invalido');
+        }
         if (validUser) {
           return navigate(
             `/${customerURL[userLocal.role][0]}/${customerURL[userLocal.role][1]}`,
@@ -40,7 +45,7 @@ function Login() {
       }
     };
     checkIfLogged();
-  }, [navigate]);
+  }, [customAlert, navigate]);
 
   useEffect(() => {
     if (emailValidate(email) && password.length >= PASSWORD_MIN) {
@@ -111,6 +116,7 @@ function Login() {
 
         </LoginButton>
         <ButtonRegister />
+
         {statusReturned === RETURN_NOT_FOUND_STATUS
           ? (
             <span

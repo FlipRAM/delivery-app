@@ -36,7 +36,6 @@ export default function ProductCards() {
   }, [productsList]);
 
   useEffect(() => {
-    console.log();
     if (Number(totalPrice.replace(',', '.')) > 0) {
       saveUserProductListToCheckout('cart', productListToCheckout);
     }

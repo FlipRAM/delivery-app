@@ -7,6 +7,7 @@ import {
 import { confirmSaleApi, listSellersApi } from '../../services/API';
 
 export default function DetailsAndAddress() {
+  const [user, setUser] = useState(undefined);
   const [sellers, setSellers] = useState([]);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
@@ -15,21 +16,20 @@ export default function DetailsAndAddress() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (getUserFromLocalStorage('user') && !user) {
+      setUser(getUserFromLocalStorage('user'));
+    }
+  }, [user]);
+
+  useEffect(() => {
     const updatedSellers = async () => {
       const sellersList = await listSellersApi();
-      return setSellers([{ id: '0', name: 'Selecione' }, ...sellersList]);
+      return setSellers(sellersList);
     };
     updatedSellers();
   }, []);
 
-  useEffect(() => {
-    if (sellers.length) {
-      setIdSelected(sellers[0].id);
-    }
-  }, [sellers]);
-
   const confirmSale = async () => {
-    const user = getUserFromLocalStorage('user');
     const checkoutList = getUserProductListToCheckout('checkoutCart');
     const totalPrice = checkoutList.reduce(
       (previousValue, currentElement) => previousValue + (
@@ -45,6 +45,7 @@ export default function DetailsAndAddress() {
       deliveryNumber: number,
     };
     const id = await confirmSaleApi(saleObj, checkoutList, user.token);
+
     return navigate(`/customer/orders/${id}`);
   };
 
@@ -56,12 +57,11 @@ export default function DetailsAndAddress() {
         <select
           id="seller"
           data-testid="customer_checkout__select-seller"
-          value={ idSelected }
           onChange={ (event) => setIdSelected(event.target.value) }
         >
-          { sellers && sellers.map((seller) => (
+          <option value="">Selecione um vendedor</option>
+          { sellers.length && sellers.map((seller) => (
             <option
-              selected={ seller.id === !!0 }
               key={ seller.id }
               value={ seller.id }
               label={ seller.name }
@@ -94,7 +94,8 @@ export default function DetailsAndAddress() {
       <button
         data-testid="customer_checkout__button-submit-order"
         type="button"
-        onClick={ () => confirmSale() }
+        disabled={ !idSelected }
+        onClick={ confirmSale }
       >
         FINALIZAR PEDIDO
       </button>

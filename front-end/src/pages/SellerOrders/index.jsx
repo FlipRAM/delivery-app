@@ -7,31 +7,32 @@ import SellerOrdersContainer from './styles';
 import dataTestIds from './testIds';
 
 export default function SellerOrder() {
-  const [seller, setSeller] = useState();
+  const [sellerOrders, setSellerOrders] = useState(undefined);
+  const { id } = getUserFromLocalStorage('user');
 
   useEffect(() => {
-    (async () => {
-      const infosDoVendedor = getUserFromLocalStorage('user');
-      const vendas = await getSellerOrdersApi(infosDoVendedor.id);
-      if (!seller) {
-        setSeller(vendas);
-      }
-    })();
-  }, [seller]);
+    const getSales = async (idToSearch) => {
+      const salesByPersonId = await getSellerOrdersApi(idToSearch);
+      return setSellerOrders(salesByPersonId.data);
+    };
+    getSales(id);
+  }, [id]);
 
   return (
     <SellerOrdersContainer>
       <Header />
       <div className="seller-orders-container">
-        { seller && seller.map((e, i) => (
+        {sellerOrders && sellerOrders.map((e, i) => (
+
           <Link key={ i } to={ `/seller/orders/${e.id}` }>
+
             <div
               className="seller-orders"
             >
               <span
                 data-testid={ `${dataTestIds[48]}${e.id}` }
               >
-                {`Pedido ${e.id}`}
+                {`PEDIDO 000${e.id}`}
               </span>
               <span
                 data-testid={ `${dataTestIds[49]}${e.id}` }

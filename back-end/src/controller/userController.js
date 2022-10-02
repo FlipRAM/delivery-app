@@ -1,21 +1,42 @@
-const { getSellers, getUserIdService, checkUser } = require('../services/userServices');
+const services = require('../services/userServices');
 
-const userController = async (_request, response) => {
-  const sellers = await getSellers();
+const getSellers = async (_request, response) => {
+  const sellers = await services.getSellers();
   response.status(200).json(sellers);
 };
 
-const getUserId = async (request, response) => {
-  const email = request.query;
-  const id = await getUserIdService(email);
-  response.status(200).json({ id });
+const getUserList = async (_request, response) => {
+  const results = await services.getUserList();
+  response.status(200).json(results);
+};
+
+const saveNewUser = async (request, response) => {
+  const userDTO = request.body;
+  const token = request.headers.authorization;
+  
+  await services.saveNewUser(userDTO, token);
+  
+  response.status(201).end();
 };
 
 const checkValidUser = async (request, response) => {
   const token = request.headers.authorization;
-  const user = await checkUser(token);
-
-  if (user) response.status(200).json();
+  const result = await services.checkUser(token);
+  response.status(200).json(result);
 };
 
-module.exports = { userController, getUserId, checkValidUser };
+const deleteUserById = async (request, response) => {
+  const { id } = request.params;
+  const token = request.body;
+  
+  const results = await services.deleteUserById(id, token.token);
+  response.status(201).json(results);
+};
+
+module.exports = {
+  getSellers,
+  checkValidUser,
+  getUserList,
+  saveNewUser,
+  deleteUserById,
+};

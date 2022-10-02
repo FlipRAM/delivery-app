@@ -8,9 +8,20 @@ const SellerOrdersContainer = styled.div`
   align-items: center;
   .seller-orders-container{
     border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+
     .seller-orders{
       border: 1px solid;
       width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      height: 33px;
     }
   }
 `;
