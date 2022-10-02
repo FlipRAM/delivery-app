@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppContext } from '../../Context/APIProvider';
 import {
   getSaleById,
   updateStatusOrderApi,
 } from '../../services/API';
+import SellerOrderDetailsContainer from './styles';
 
 export default function CheckoutProducts() {
-  const [sale, setSale] = useState(undefined);
+  const { sale, setSale } = useContext(useAppContext);
   const { id } = useParams();
 
   const status4Test = 'seller_order_details__element-order-details-label-delivery-status';
@@ -14,19 +16,20 @@ export default function CheckoutProducts() {
   useEffect(() => {
     const getSale = async (idToSearch) => {
       const saleById = await getSaleById(idToSearch);
-      return setSale(saleById);
+      setSale(saleById);
     };
     getSale(id);
-  }, [id]);
+  }, [id, setSale]);
 
   const changeStatus = async (stringStatus) => {
     const saleUpdated = await updateStatusOrderApi(id, stringStatus);
+
     setSale(saleUpdated.data);
   };
 
   return (
-    <div>
-      <div>
+    <SellerOrderDetailsContainer>
+      <div className="content-container">
         { sale && (
           <div>
             <p
@@ -42,7 +45,7 @@ export default function CheckoutProducts() {
             <p
               data-testid={ status4Test }
             >
-              {`${sale.status}`}
+              {sale.status}
             </p>
             <button
               data-testid="seller_order_details__button-preparing-check"
@@ -63,7 +66,7 @@ export default function CheckoutProducts() {
           </div>
         )}
       </div>
-      <div>
+      <div className="product-list-container">
         { sale && sale.product.map((product, index) => (
           <div key={ product.id }>
             <p
@@ -117,6 +120,6 @@ export default function CheckoutProducts() {
           </p>
         )}
       </div>
-    </div>
+    </SellerOrderDetailsContainer>
   );
 }

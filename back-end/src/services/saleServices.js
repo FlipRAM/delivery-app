@@ -34,7 +34,7 @@ const getSaleByIdWithFullInfo = async (id) => {
       model: users,
       as: 'seller',
     },
-  ] });
+  ] }, { raw: true });
   return results;
 };
 
@@ -47,7 +47,7 @@ const updateStatus = async (id, status) => {
   const results = await sales.update({ status }, { where: { id } });
   if (!results) throw new ErrorProvider(404, 'Update fail');
   const sale = await getSaleByIdWithFullInfo(id);
-  return sale.dataValues;
+  return sale;
 };
 
 const getAllSalesCustomerWithFullInfo = async (id) => {

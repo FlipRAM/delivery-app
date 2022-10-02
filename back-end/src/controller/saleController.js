@@ -23,6 +23,7 @@ const getSaleList = async (_request, response) => {
 const updateStatus = async (request, response) => {
   const { id } = request.params;
   const { status } = request.body;
+  
   const results = await service.updateStatus(id, status);
   response.status(200).json(results);
 };

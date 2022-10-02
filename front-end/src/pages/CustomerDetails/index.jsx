@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import { useAppContext } from '../../Context/APIProvider';
 import { listSalesWithFullInfoApi, updateStatusOrderApi } from '../../services/API';
 import CustomerDetailsContainer from './styles';
 import dataTestIds from './testsIds';
 
 export default function CostumerOrderDetails() {
-  const [sale, setSale] = useState(undefined);
+  const { sale, setSale } = useContext(useAppContext);
   const { id } = useParams();
-  console.log(sale);
+
   useEffect(() => {
     (async () => {
-      setSale(await listSalesWithFullInfoApi(id));
+      const data = await listSalesWithFullInfoApi(id);
+      setSale(data);
     })();
-  }, [id]);
+  }, [id, setSale]);
 
   const handleUpdateStatus = async () => {
     const result = await updateStatusOrderApi(id, 'Entregue');
-    setSale(result);
+    setSale(result.data);
   };
 
   return (

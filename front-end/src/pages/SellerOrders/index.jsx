@@ -11,9 +11,9 @@ export default function SellerOrder() {
 
   useEffect(() => {
     (async () => {
-      const infosDoVendedor = getUserFromLocalStorage('user');
-      const vendas = await getSellerOrdersApi(infosDoVendedor.id);
       if (!sellerOrders) {
+        const infosDoVendedor = getUserFromLocalStorage('user');
+        const vendas = await getSellerOrdersApi(infosDoVendedor.id);
         setSellerOrders(vendas);
       }
     })();

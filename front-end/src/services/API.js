@@ -82,7 +82,7 @@ export const listSalesWithFullInfoApi = async (id) => {
 
 export const updateStatusOrderApi = async (id, status) => {
   try {
-    const { data } = await axios.put((`http://localhost:3001/sales/${id}`), {
+    const data = await axios.put((`http://localhost:3001/sales/${id}`), {
       status,
     });
 
