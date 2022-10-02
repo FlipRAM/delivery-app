@@ -38,7 +38,7 @@ export default function FormAdmManager() {
       }, ERROR_MSG_TIMER);
     }
 
-    setUserList(result.data);
+    return setUserList(undefined);
   };
 
   return (
@@ -47,63 +47,64 @@ export default function FormAdmManager() {
       <FormContainer
         onSubmit={ handleSubmit(onSubmit) }
       >
-        <label htmlFor="name">
-          Nome
-          <input
-            { ...register(
-              'name',
-              {
+        <div className="inputs">
+
+          <label htmlFor="name">
+            Nome
+            <input
+              { ...register(
+                'name',
+                {
+                  required: true,
+                  minLength: {
+                    value: 12,
+                    message: 'Seu nome completo de ter no mínimo 12 caracteres',
+                  } },
+              ) }
+              data-testid="admin_manage__input-name"
+              id="name"
+              type="text"
+              placeholder="Nome e sobrenome"
+            />
+            {errors.name && <p role="alert">{errors.name?.message}</p>}
+          </label>
+
+          <label htmlFor="email">
+            Email
+            <input
+              { ...register('email', {
+                required: 'Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'invalid email address',
+                },
+              }) }
+              aria-invalid={ errors.mail ? 'true' : 'false' }
+              placeholder="seu-email@site.com"
+              data-testid="admin_manage__input-email"
+              id="email"
+            />
+            {errors.mail && <p role="alert">{errors.email?.message}</p>}
+          </label>
+
+          <label htmlFor="password">
+            Senha
+            <input
+              { ...register('password', {
                 required: true,
                 minLength: {
-                  value: 12,
-                  message: 'Seu nome completo de ter no mínimo 12 caracteres',
-                } },
-            ) }
-            data-testid="admin_manage__input-name"
-            id="name"
-            type="text"
-            placeholder="Nome e sobrenome"
-          />
-          {errors.name && <p role="alert">{errors.name?.message}</p>}
-        </label>
+                  value: 6,
+                  message: 'Sua senha deve ter no mínimo 6 caracteres',
+                },
+              }) }
+              data-testid="admin_manage__input-password"
+              id="password"
+              type="password"
+              placeholder="********"
+            />
+            {errors.password && <p role="alert">{errors.password?.message}</p>}
+          </label>
 
-        <label htmlFor="email">
-          Email
-          <input
-            { ...register('email', {
-              required: 'Required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'invalid email address',
-              },
-            }) }
-            aria-invalid={ errors.mail ? 'true' : 'false' }
-            placeholder="seu-email@site.com"
-            data-testid="admin_manage__input-email"
-            id="email"
-          />
-          {errors.mail && <p role="alert">{errors.email?.message}</p>}
-        </label>
-
-        <label htmlFor="password">
-          Senha
-          <input
-            { ...register('password', {
-              required: true,
-              minLength: {
-                value: 6,
-                message: 'Sua senha deve ter no mínimo 6 caracteres',
-              },
-            }) }
-            data-testid="admin_manage__input-password"
-            id="password"
-            type="password"
-            placeholder="********"
-          />
-          {errors.password && <p role="alert">{errors.password?.message}</p>}
-        </label>
-        <label htmlFor="role">
-          Tipo
           <select
             { ...register('role', { required: true }) }
             id="role"
@@ -111,10 +112,17 @@ export default function FormAdmManager() {
           >
             <option value="">Selecione o tipo (role)</option>
             {USER_TYPE
-              .map((each, i) => <option key={ each + i } value={ each }>{each}</option>)}
+              .map((each, i) => (
+                <option
+                  key={ each + i }
+                  value={ each }
+                >
+                  {each}
+                </option>
+              ))}
           </select>
-        </label>
 
+        </div>
         <button
           data-testid="admin_manage__button-register"
           type="submit"
@@ -123,16 +131,16 @@ export default function FormAdmManager() {
           CADASTRAR
         </button>
 
-        <span
-          className="error-message"
-          data-testid="admin_manage__element-invalid-register"
-          disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
-        >
-          {statusReturned === RETURN_USER_DUPLICATE_STATUS
+      </FormContainer>
+      <span
+        className="error-message"
+        data-testid="admin_manage__element-invalid-register"
+        disabled={ statusReturned !== RETURN_USER_DUPLICATE_STATUS }
+      >
+        {statusReturned === RETURN_USER_DUPLICATE_STATUS
             && 'Nome ou Email ja cadastrado'}
 
-        </span>
-      </FormContainer>
+      </span>
     </FormContentContainer>
   );
 }

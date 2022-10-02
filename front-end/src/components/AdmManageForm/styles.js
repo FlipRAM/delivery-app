@@ -31,24 +31,39 @@ export const FormContainer = styled.form`
   position: relative;
 
 
-  label {
+  .inputs {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 4px;
-
-    input, select {
-      flex: 1;
-      min-width: 200px;
-      height: 36px;
-      padding: 8px;
+    flex-wrap: wrap;
+    gap: 16px;
+    
+    label {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4px;
+      
+      input {
+        flex: 1;
+        min-width: 200px;
+        height: 36px;
+        padding: 8px;
+      }
+      
+      
     }
-
+    
+    select {
+      min-width: 200px;
+      height: 3rem;
+      padding-left: 8px;
+      
+      align-self: center;
+    }
   }
-
-  button {
-    width: fit-content;
+    
+    button {
+      width: fit-content;
     height: 43px;
     border-radius: 8px;
     padding: 8px 32px;

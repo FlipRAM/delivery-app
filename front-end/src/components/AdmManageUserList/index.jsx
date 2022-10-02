@@ -27,7 +27,6 @@ export default function AdmManageUserList() {
 
   const handleToRemoveUser = async (event) => {
     const data = await removeUserApi(event.target.value, user.token);
-
     setUserList(data.data);
   };
 
@@ -40,7 +39,7 @@ export default function AdmManageUserList() {
               <span
                 data-testid={ `admin_manage__element-user-table-item-number-${i}` }
               >
-                {i + 1}
+                {i}
               </span>
 
               <span

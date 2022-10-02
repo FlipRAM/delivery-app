@@ -27,12 +27,10 @@ const saveNewUser = async (userDTO, token) => {
 
   const passConverted = md5(userDTO.password).toString();
   const userToSave = { ...userDTO, password: passConverted };
-
-  await users.create(userToSave);
-
-  const newList = await getUserList();
   
-  return newList;
+  await users.create(userToSave);
+  
+  // await getUserList();
 };
 
 const userList = async (token) => {

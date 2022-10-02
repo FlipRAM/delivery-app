@@ -14,9 +14,9 @@ const saveNewUser = async (request, response) => {
   const userDTO = request.body;
   const token = request.headers.authorization;
   
-  const results = await services.saveNewUser(userDTO, token);
+  await services.saveNewUser(userDTO, token);
   
-  response.status(201).json(results);
+  response.status(201).end();
 };
 
 const checkValidUser = async (request, response) => {
