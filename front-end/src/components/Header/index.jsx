@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useResolvedPath } from 'react-router';
 import { useAppContext } from '../../Context/APIProvider';
 import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import HeaderContainer from './styles';
@@ -8,6 +8,7 @@ export default function Header() {
   const { userLog } = useContext(useAppContext);
   const [userInfo, setUserInfo] = useState(userLog);
   const navigate = useNavigate();
+  const { pathname } = useResolvedPath();
 
   useEffect(() => {
     if (getUserFromLocalStorage('user') && !userLog) {
@@ -32,14 +33,18 @@ export default function Header() {
   return (
     <HeaderContainer>
       <div className="nav-left">
-        <button
-          data-testid="customer_products__element-navbar-link-products"
-          className="nav-left-items produtos"
-          type="button"
-          onClick={ () => navigateToPath('products') }
-        >
-          PRODUTOS
-        </button>
+        {
+          pathname.split('/')[1] !== 'seller' && (
+            <button
+              data-testid="customer_products__element-navbar-link-products"
+              className="nav-left-items produtos"
+              type="button"
+              onClick={ () => navigateToPath('products') }
+            >
+              PRODUTOS
+            </button>
+          )
+        }
         <button
           data-testid="customer_products__element-navbar-link-orders"
           className="nav-left-items pedidos"

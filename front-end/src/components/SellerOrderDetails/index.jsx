@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import {
   getSaleById,
   updateStatusOrderApi,
@@ -21,7 +21,7 @@ export default function CheckoutProducts() {
 
   const changeStatus = async (stringStatus) => {
     const saleUpdated = await updateStatusOrderApi(id, stringStatus);
-    setSale(saleUpdated);
+    setSale(saleUpdated.data);
   };
 
   return (

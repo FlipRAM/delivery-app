@@ -8,7 +8,7 @@ import dataTestIds from './testsIds';
 export default function CostumerOrderDetails() {
   const [sale, setSale] = useState(undefined);
   const { id } = useParams();
-
+  console.log(sale);
   useEffect(() => {
     (async () => {
       setSale(await listSalesWithFullInfoApi(id));
@@ -51,7 +51,7 @@ export default function CostumerOrderDetails() {
                 </span>
                 <button
                   type="button"
-                  disabled={ sale.status !== 'Em trânsito' }
+                  disabled={ sale.status !== 'Em Trânsito' }
                   onClick={ handleUpdateStatus }
                   data-testid={ dataTestIds[47] }
                 >
