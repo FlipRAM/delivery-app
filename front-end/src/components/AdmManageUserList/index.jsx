@@ -28,9 +28,8 @@ export default function AdmManageUserList() {
   const handleToRemoveUser = async (event) => {
     const data = await removeUserApi(event.target.value, user.token);
     console.log(data);
-    setUserList(data);
+    setUserList(data.data);
   };
-  console.log(userList);
 
   return (
     <UserListContainer>
