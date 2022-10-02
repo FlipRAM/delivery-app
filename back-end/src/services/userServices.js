@@ -24,12 +24,15 @@ const saveNewUser = async (userDTO, token) => {
   if (validateIfExists) {
     throw new ErrorProvider(409, 'Usuário ja cadastrado');
   }
-  
-  const passConverted = md5(userDTO.password).toString();
 
-  await users.create({ ...userDTO, password: passConverted });
+  const passConverted = md5(userDTO.password).toString();
+  const userToSave = { ...userDTO, password: passConverted };
+
+  await users.create(userToSave);
+
+  const newList = await getUserList();
   
-  // return results.dataValues;
+  return newList;
 };
 
 const userList = async (token) => {
@@ -47,8 +50,8 @@ const deleteUserById = async (id, token) => {
   if (!checkReturn) throw new ErrorProvider(404, 'Id Invalido');
 
   const results = await getUserList();
-  console.log(results);
-  return results.dataValues;
+
+  return results;
 };
 
 const checkUser = async (token) => {

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useAppContext } from '../../Context/APIProvider';
 import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import { getUserListApi, removeUserApi } from '../../services/API';
 import UserListContainer from './styles';
 
 export default function AdmManageUserList() {
-  const [userList, setUserList] = useState([]);
+  const { userList, setUserList } = useContext(useAppContext);
 
   const [user, setUser] = useState(undefined);
 
@@ -16,23 +17,25 @@ export default function AdmManageUserList() {
 
   useEffect(() => {
     (async () => {
-      if (!userList.length && user) {
-        const data = await getUserListApi(user);
-        setUserList(data);
+      if (!userList && user) {
+        const data = await getUserListApi(user.id);
+        console.log(data);
+        setUserList(data.data);
       }
     })();
-  }, [user, userList]);
+  }, [setUserList, user, userList]);
 
   const handleToRemoveUser = async (event) => {
-    console.log(event.target.value, typeof user.token);
     const data = await removeUserApi(event.target.value, user.token);
     console.log(data);
+    setUserList(data);
   };
+  console.log(userList);
 
   return (
     <UserListContainer>
       <section className="user-list-container">
-        {userList.length && userList.map((each, i) => each.role !== 'administrator'
+        {userList && userList.map((each, i) => each.role !== 'administrator'
           && (
             <aside key={ each.name + i } className="user-card-container">
               <span

@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAppContext } from '../../Context/APIProvider';
 import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import { saveNewUserApi } from '../../services/API';
 import { FormContainer, FormContentContainer } from './styles';
@@ -10,6 +11,7 @@ const RETURN_USER_DUPLICATE_STATUS = 409;
 const INITIAL_STATUS = 0;
 
 export default function FormAdmManager() {
+  const { setUserList } = useContext(useAppContext);
   const [user, setUser] = useState(undefined);
   const [statusReturned, setStatusReturned] = useState(INITIAL_STATUS);
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -30,6 +32,8 @@ export default function FormAdmManager() {
     if (result instanceof AxiosError) {
       return setStatusReturned(result.response.status);
     }
+
+    setUserList(result.data);
   };
 
   return (

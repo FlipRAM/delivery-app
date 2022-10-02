@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 
-const SALES = 'http://localhost:3001/users';
+const USERS_ROUTE_MAIN = 'http://localhost:3001/users';
 
 export const postLoginApi = async (data) => {
   try {
@@ -94,7 +94,7 @@ export const updateStatusOrderApi = async (id, status) => {
 
 export const saveNewUserApi = async (userDTO, token) => {
   try {
-    const result = await axios.post((SALES), {
+    const result = await axios.post((USERS_ROUTE_MAIN), {
       ...userDTO,
     }, {
       headers: {
@@ -102,7 +102,7 @@ export const saveNewUserApi = async (userDTO, token) => {
       },
     });
 
-    return result.data;
+    return result;
   } catch (AxiosError) {
     return AxiosError;
   }
@@ -129,13 +129,13 @@ export const getAllSalesOfPerson = async (id) => {
 
 export const getUserListApi = async (token) => {
   try {
-    const result = await axios.get((SALES), {
+    const result = await axios.get((USERS_ROUTE_MAIN), {
       headers: {
         Authorization: token,
       },
     });
 
-    return result.data;
+    return result;
   } catch (AxiosError) {
     return AxiosError;
   }
