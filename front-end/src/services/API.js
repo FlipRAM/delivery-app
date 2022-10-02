@@ -119,7 +119,7 @@ export const removeUserApi = async (id, token) => {
 
 export const getAllSalesOfPerson = async (id) => {
   try {
-    const { data } = await axios.get(`http://localhost:3001/customer/${id}/orders`);
+    const data = await axios.get(`http://localhost:3001/customer/${id}/orders`);
 
     return data;
   } catch (AxiosError) {

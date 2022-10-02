@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { getUserFromLocalStorage } from '../../Context/LocalStorage';
 import { getAllSalesOfPerson } from '../../services/API';
 import Header from '../../components/Header';
-import CustomerOrdersContainer from './styles';
+import CustomerDetailsContainer from '../CustomerDetails/styles';
 
 export default function CustomerOrders() {
   const [sales, setSales] = useState([]);
@@ -12,13 +12,13 @@ export default function CustomerOrders() {
   useEffect(() => {
     const getSales = async (idToSearch) => {
       const salesByPersonId = await getAllSalesOfPerson(idToSearch);
-      return setSales(salesByPersonId);
+      return setSales(salesByPersonId.data);
     };
     getSales(id);
   }, [id]);
 
   return (
-    <CustomerOrdersContainer>
+    <CustomerDetailsContainer>
       <Header />
       <div className="sales-list-container">
         { sales && sales.map((sale) => (
@@ -55,6 +55,6 @@ export default function CustomerOrders() {
           </Link>
         ))}
       </div>
-    </CustomerOrdersContainer>
+    </CustomerDetailsContainer>
   );
 }

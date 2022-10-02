@@ -16,6 +16,11 @@ const CustomerOrdersContainer = styled.div`
     border: 1px solid red;
     overflow-y: scroll;
 
+    link {
+      min-height: fit-content;
+      min-width: fit-content;
+      z-index: 9999;
+    }
 
     .sales-card-container {
       display: flex;
