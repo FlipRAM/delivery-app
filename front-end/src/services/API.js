@@ -156,8 +156,8 @@ export const confirmUser = async (token) => {
 
 export const getSellerOrdersApi = async (id) => {
   try {
-    const { data } = await axios(`http://localhost:3001/seller/${id}/orders`);
-    console.log(data);
+    const data = await axios(`http://localhost:3001/seller/${id}/orders`);
+
     return data;
   } catch (AxiosError) {
     return AxiosError;

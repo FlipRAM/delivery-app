@@ -8,30 +8,31 @@ import dataTestIds from './testIds';
 
 export default function SellerOrder() {
   const [sellerOrders, setSellerOrders] = useState(undefined);
+  const { id } = getUserFromLocalStorage('user');
 
   useEffect(() => {
-    (async () => {
-      if (!sellerOrders) {
-        const infosDoVendedor = getUserFromLocalStorage('user');
-        const vendas = await getSellerOrdersApi(infosDoVendedor.id);
-        setSellerOrders(vendas);
-      }
-    })();
-  }, [sellerOrders]);
+    const getSales = async (idToSearch) => {
+      const salesByPersonId = await getSellerOrdersApi(idToSearch);
+      return setSellerOrders(salesByPersonId.data);
+    };
+    getSales(id);
+  }, [id]);
 
   return (
     <SellerOrdersContainer>
       <Header />
       <div className="seller-orders-container">
-        { sellerOrders && sellerOrders.map((e, i) => (
+        {sellerOrders && sellerOrders.map((e, i) => (
+
           <Link key={ i } to={ `/seller/orders/${e.id}` }>
+
             <div
               className="seller-orders"
             >
               <span
                 data-testid={ `${dataTestIds[48]}${e.id}` }
               >
-                {`Pedido ${e.id}`}
+                {`PEDIDO 000${e.id}`}
               </span>
               <span
                 data-testid={ `${dataTestIds[49]}${e.id}` }
