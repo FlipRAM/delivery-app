@@ -33,10 +33,10 @@ const saveNewUser = async (userDTO, token) => {
   // await getUserList();
 };
 
-const userList = async (token) => {
-  const user = verifyToken(token);
-  return user;
-};
+// const userList = async (token) => {
+//   const user = verifyToken(token);
+//   return user;
+// };
 
 const deleteUserById = async (id, token) => {
   const userInfo = verifyToken(token);
@@ -59,7 +59,7 @@ const checkUser = async (token) => {
 
 module.exports = {
   getSellers,
-  userList,
+  // userList,
   getUserList,
   saveNewUser,
   deleteUserById,

@@ -22,6 +22,17 @@
         }
       }
     },
+    "/users/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users/verify": {
       "post": {
         "description": "",

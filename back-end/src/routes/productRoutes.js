@@ -3,6 +3,6 @@ const { productController } = require('../controller/productsController');
 
 const productRouter = express.Router();
 
-productRouter.get('/products/customer', productController);
+productRouter.get('/customer', productController);
 
 module.exports = productRouter;

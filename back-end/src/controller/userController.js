@@ -20,7 +20,6 @@ const saveNewUser = async (request, response) => {
 };
 
 const checkValidUser = async (request, response) => {
-  console.log(request.headers);
   const token = request.headers.authorization;
   const result = await services.checkUser(token);
   response.status(200).json(result);

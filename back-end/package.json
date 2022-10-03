@@ -13,11 +13,10 @@
     "start": "node .",
     "dev": "nodemon .",
     "test": "mocha src/tests/**/*$NAME*.test.js --exit",
-    "mytest": "mocha src/tests/**/*.test.js --exit",
     "test:coverage": "nyc --all npm run test",
     "test:coverage:json": "nyc --all --reporter=json-summary npm run test",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
-    "swagger-autogen": "node swagger.js"
+    "swagger-autogen": "node ./src/swagger.js"
   },
   "dependencies": {
     "@hapi/boom": "9.1.4",
