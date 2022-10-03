@@ -27,7 +27,7 @@ export const postRegisterApi = async (data) => {
 
 export const listProductsApi = async () => {
   try {
-    const result = await axios('http://localhost:3001/customer/products');
+    const result = await axios('http://localhost:3001/products/customer');
     return result;
   } catch (AxiosError) {
     return AxiosError;
@@ -46,7 +46,7 @@ export const listSellersApi = async () => {
 
 export const confirmSaleApi = async (saleObj, products, token) => {
   try {
-    const { data: { id } } = await axios.post(('http://localhost:3001/customer/sales'), {
+    const { data: { id } } = await axios.post(('http://localhost:3001/sales/customer'), {
       saleObj,
       products,
     }, {
@@ -72,7 +72,7 @@ export const getSaleById = async (id) => {
 
 export const listSalesWithFullInfoApi = async (id) => {
   try {
-    const { data } = await axios(`http://localhost:3001/customer/sales/${id}`);
+    const { data } = await axios(`http://localhost:3001/sales/customer/${id}`);
 
     return data;
   } catch (AxiosError) {
@@ -119,7 +119,7 @@ export const removeUserApi = async (id, token) => {
 
 export const getAllSalesOfPerson = async (id) => {
   try {
-    const data = await axios.get(`http://localhost:3001/customer/${id}/orders`);
+    const data = await axios.get(`http://localhost:3001/sales/customer/${id}/orders`);
 
     return data;
   } catch (AxiosError) {
@@ -156,7 +156,7 @@ export const confirmUser = async (token) => {
 
 export const getSellerOrdersApi = async (id) => {
   try {
-    const data = await axios(`http://localhost:3001/seller/${id}/orders`);
+    const data = await axios(`http://localhost:3001/sales/seller/${id}/orders`);
 
     return data;
   } catch (AxiosError) {
